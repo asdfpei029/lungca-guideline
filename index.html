@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="theme-color" content="#2563eb"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<meta name="apple-mobile-web-app-title" content="肺癌指引"/>
+<meta name="description" content="NCCN 2026 肺癌診治指引 — TNM分期、治療決策、生物標記"/>
+<title>肺癌診治指引 v3.1</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+<script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+<style>
+/* ═══ CSS VARIABLES — 亮色系（HCY 規範） ═══ */
+:root{
+  --bg:#f4f6fa; --bg2:#ffffff; --bg3:#eef1f7;
+  --blue:#2563eb; --blue-l:#dbeafe; --blue-d:#1e40af;
+  --text:#1a2340; --text2:#5a6a8a; --text3:#94a3b8;
+  --green:#059669; --green-l:#d1fae5;
+  --red:#dc2626;   --red-l:#fee2e2;
+  --yellow:#ca8a04;--yellow-l:#fef3c7;
+  --orange:#d97706;--orange-l:#ffedd5;
+  --teal:#0d9488;  --teal-l:#ccfbf1;
+  --violet:#7c3aed;--violet-l:#ede9fe;
+  --pink:#db2777;  --pink-l:#fce7f3;
+  --cyan:#0891b2;  --cyan-l:#cffafe;
+  --rose:#e11d48;  --rose-l:#ffe4e6;
+  --indigo:#4f46e5;--indigo-l:#e0e7ff;
+  --border:#e2e8f0;--border2:#cbd5e1;
+  --shadow:0 2px 8px rgba(30,64,175,.08);
+  --shadow2:0 4px 16px rgba(30,64,175,.12);
+  --radius:14px; --radius-sm:8px; --radius-lg:18px;
+  --mono:'IBM Plex Mono',monospace;
+  --sans:'Noto Sans TC',sans-serif;
+}
+
+/* ═══ RESET ═══ */
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;min-width:0;}
+html,body{margin:0;padding:0;overflow-x:hidden;max-width:100vw;background:var(--bg);
+          font-family:var(--sans);color:var(--text);-webkit-font-smoothing:antialiased;}
+#root{width:100%;min-height:100vh;}
+button{font-family:var(--sans);border:none;cursor:pointer;outline:none;background:none;padding:0;}
+a{color:var(--blue);text-decoration:none;}
+a:hover{text-decoration:underline;}
+
+/* ═══ SCROLLBAR ═══ */
+::-webkit-scrollbar{width:4px;height:4px;}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+
+/* ═══ APP SHELL ═══ */
+.app-wrap{width:100%;max-width:640px;margin:0 auto;min-height:100vh;background:var(--bg);}
+.page-pad{padding:16px 16px 24px;}
+
+/* ═══ HEADER ═══ */
+.app-header{
+  background:var(--blue-d);
+  padding:12px 16px 10px;
+  position:sticky;top:0;z-index:200;
+}
+.header-row1{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.header-title{font-size:17px;font-weight:700;color:#fff;letter-spacing:-.3px;flex:1;min-width:0;}
+.header-badge{background:rgba(255,255,255,.15);color:#fff;font-size:11px;font-weight:600;
+              padding:3px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;
+              border:1px solid rgba(255,255,255,.25);}
+.header-row2{font-size:11px;color:rgba(255,255,255,.55);margin-top:2px;}
+@media(max-width:430px){
+  .header-title{font-size:15px;}
+  .header-row2{display:none;}
+}
+
+/* ═══ BOTTOM TAB BAR ═══ */
+.tab-bar{position:fixed;bottom:0;left:0;right:0;height:58px;
+         background:var(--bg2);border-top:1px solid var(--border);
+         display:flex;z-index:200;box-shadow:0 -2px 12px rgba(0,0,0,.06);}
+.tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;
+         justify-content:center;gap:2px;position:relative;padding:6px 4px;}
+.tab-indicator{position:absolute;top:0;left:50%;transform:translateX(-50%);
+               width:24px;height:2.5px;border-radius:0 0 3px 3px;background:var(--blue);}
+.tab-ico{font-size:19px;line-height:1;}
+.tab-lbl{font-size:10.5px;font-weight:500;color:var(--text3);}
+.tab-lbl.on{color:var(--blue);font-weight:700;}
+.app-content{padding-bottom:66px;}
+@media(max-width:430px){.tab-ico{font-size:17px;}.tab-lbl{font-size:10px;}.tab-bar{height:54px;}.app-content{padding-bottom:62px;}}
+
+/* ═══ SECTION HEADER ═══ */
+.page-title{font-size:17px;font-weight:700;color:var(--text);margin-bottom:2px;}
+.page-sub{font-size:12px;color:var(--text3);font-family:var(--mono);}
+
+/* ═══ STEP BAR ═══ */
+.stepbar{display:flex;align-items:center;gap:4px;overflow-x:auto;padding:4px 0 10px;
+         scrollbar-width:none;margin-bottom:12px;-webkit-overflow-scrolling:touch;}
+.stepbar::-webkit-scrollbar{display:none;}
+.sb-item{display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0;}
+.sb-circle{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;
+           justify-content:center;font-size:12px;font-weight:700;transition:all .2s;}
+.sb-label{font-size:10px;white-space:nowrap;font-weight:500;}
+.sb-line{height:2px;width:20px;flex-shrink:0;border-radius:1px;transition:background .2s;}
+
+/* ═══ CARDS ═══ */
+.card{background:var(--bg2);border-radius:var(--radius);border:1px solid var(--border);
+      overflow:hidden;box-shadow:var(--shadow);}
+.card+.card,.card+.info-box,.info-box+.card{margin-top:10px;}
+.card-head{padding:14px 16px;border-bottom:1px solid var(--border);}
+.card-body{padding:14px 16px;}
+.card-title{font-size:15px;font-weight:700;color:var(--text);}
+.card-sub{font-size:12px;color:var(--text2);margin-top:2px;}
+
+/* ═══ INFO BOX ═══ */
+.info-box{background:var(--blue-l);border:1px solid #bfdbfe;border-radius:var(--radius);
+          padding:12px 14px;font-size:13px;color:#1e3a8a;line-height:1.6;}
+.warn-box{background:var(--yellow-l);border:1px solid #fde68a;border-radius:var(--radius);
+          padding:10px 14px;font-size:12.5px;color:#713f12;line-height:1.6;}
+.nhi-box{background:var(--yellow-l);border-left:3px solid var(--yellow);border-radius:var(--radius-sm);
+         padding:10px 14px;font-size:12.5px;color:#713f12;line-height:1.6;margin-top:8px;}
+
+/* ═══ BUTTONS ═══ */
+.btn-primary{
+  display:flex;align-items:center;justify-content:center;gap:8px;
+  width:100%;padding:14px;border-radius:var(--radius);
+  background:var(--blue);color:#fff;font-size:14px;font-weight:700;
+  box-shadow:var(--shadow);transition:opacity .15s;
+}
+.btn-primary:active{opacity:.85;}
+.btn-outline{
+  display:flex;align-items:center;justify-content:center;gap:6px;
+  width:100%;padding:12px;border-radius:var(--radius);
+  background:var(--bg2);color:var(--text2);font-size:13px;font-weight:600;
+  border:1.5px solid var(--border2);transition:all .15s;
+}
+.btn-outline:hover{border-color:var(--blue);color:var(--blue);}
+
+/* ═══ SEL BTN ═══ */
+.sel-btn{
+  width:100%;display:flex;align-items:flex-start;gap:10px;
+  padding:13px 14px;border-radius:var(--radius);
+  border:2px solid var(--border);background:var(--bg2);
+  margin-bottom:8px;text-align:left;transition:all .15s;
+  box-shadow:var(--shadow);
+}
+.sel-btn.active{border-color:var(--blue);background:var(--blue-l);}
+.sel-btn-code{font-family:var(--mono);font-size:12px;font-weight:600;
+              padding:3px 8px;border-radius:6px;white-space:nowrap;
+              flex-shrink:0;align-self:flex-start;margin-top:1px;
+              background:#f1f5f9;color:var(--text2);}
+.sel-btn.active .sel-btn-code{background:#bfdbfe;color:var(--blue-d);}
+.sel-btn-text{flex:1;min-width:0;}
+.sel-btn-title{font-size:14px;font-weight:600;color:var(--text);line-height:1.3;word-break:break-word;}
+.sel-btn.active .sel-btn-title{color:var(--blue-d);}
+.sel-btn-desc{font-size:12px;color:var(--text2);margin-top:3px;line-height:1.5;word-break:break-word;}
+.sel-btn.active .sel-btn-desc{color:#3b82f6;}
+.sel-btn-check{color:var(--blue);font-size:16px;flex-shrink:0;margin-top:1px;}
+
+/* ═══ TYPE BTN (NSCLC/SCLC) ═══ */
+.type-row{display:flex;gap:12px;margin-bottom:14px;}
+.type-row.col{flex-direction:column;}
+.type-btn{
+  flex:1;padding:20px 12px;border-radius:var(--radius-lg);
+  border:2px solid var(--border);background:var(--bg2);
+  text-align:center;transition:all .15s;box-shadow:var(--shadow);
+}
+.type-btn:active{transform:scale(.98);}
+.type-btn-ico{font-size:34px;margin-bottom:8px;}
+.type-btn-title{font-size:16px;font-weight:700;color:var(--text);}
+.type-btn-sub{font-size:12px;color:var(--text2);margin-top:3px;}
+@media(max-width:430px){.type-row{flex-direction:column;}}
+
+/* ═══ XLINK BTN ═══ */
+.xlink-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:9px 14px;border-radius:var(--radius-sm);
+  font-size:13px;font-weight:600;margin-top:6px;margin-right:6px;
+  word-break:break-word;white-space:normal;text-align:left;
+  transition:all .15s;
+}
+.xlink-btn:active{opacity:.8;}
+
+/* ═══ PILL / BADGE ═══ */
+.pill{display:inline-block;font-size:11px;font-weight:600;
+      padding:2px 9px;border-radius:20px;line-height:1.5;white-space:nowrap;}
+.badge-src{font-family:var(--mono);font-size:10px;font-weight:600;
+           padding:2px 7px;border-radius:5px;display:inline-block;line-height:1.4;}
+.badge-nccn{background:#dbeafe;color:#1e40af;}
+.badge-cat1{background:#d1fae5;color:#065f46;}
+.badge-cat2{background:#fef3c7;color:#713f12;}
+.badge-trial{background:#ede9fe;color:#4c1d95;}
+
+/* ═══ SECTION HEAD ═══ */
+.sec-head{display:flex;align-items:center;gap:8px;margin:14px 0 8px;}
+.sec-head-bar{width:3px;height:18px;border-radius:2px;flex-shrink:0;}
+.sec-head-text{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;}
+
+/* ═══ TX ROW ═══ */
+.tx-row{padding:10px 0;border-bottom:1px solid var(--border);}
+.tx-row:last-child{border-bottom:none;}
+.tx-row-top{display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;}
+.tx-row-drug{font-size:13.5px;font-weight:600;color:var(--text);flex:1;min-width:0;
+             line-height:1.45;word-break:break-word;}
+.tx-row-badges{display:flex;gap:4px;flex-wrap:wrap;flex-shrink:0;}
+.tx-row-note{font-size:11.5px;color:var(--text2);margin-top:3px;word-break:break-word;}
+
+/* ═══ TNM TABLE ═══ */
+.tnm-table{width:100%;border-collapse:collapse;font-size:12.5px;}
+.tnm-table th{background:var(--bg3);color:var(--text2);font-size:11px;font-weight:700;
+              text-transform:uppercase;letter-spacing:.04em;padding:8px 10px;
+              border-bottom:2px solid var(--border2);text-align:left;}
+.tnm-table td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:top;
+              line-height:1.5;word-break:break-word;}
+.tnm-table tr:hover td{background:var(--bg3);}
+.tnm-code-cell{font-family:var(--mono);font-size:12px;font-weight:600;
+               white-space:nowrap;width:60px;}
+.tnm-table-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border);
+                box-shadow:var(--shadow);}
+
+/* ═══ STAGE RESULT CARD ═══ */
+.stage-result{border-radius:var(--radius);border:2px solid;overflow:hidden;margin-top:6px;}
+.stage-result-head{padding:12px 14px;}
+.stage-tnm-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px;}
+.stage-tnm-code{font-family:var(--mono);font-size:15px;font-weight:700;letter-spacing:-.3px;}
+.stage-badge-large{font-size:14px;font-weight:800;padding:4px 12px;border-radius:8px;
+                   white-space:nowrap;flex-shrink:0;font-family:var(--mono);}
+.stage-result-body{padding:12px 14px;background:var(--bg2);}
+
+/* ═══ TAB TOGGLE ═══ */
+.tab-toggle{display:flex;background:var(--bg3);border-radius:var(--radius-sm);
+            padding:3px;margin-bottom:14px;}
+.tab-toggle-btn{flex:1;padding:7px;border-radius:6px;font-size:13px;font-weight:600;
+                color:var(--text2);transition:all .15s;text-align:center;}
+.tab-toggle-btn.active{background:var(--bg2);color:var(--blue);box-shadow:var(--shadow);}
+
+/* ═══ LINK BTN ═══ */
+.link-card{display:flex;align-items:center;gap:12px;padding:14px 16px;
+           background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);
+           box-shadow:var(--shadow);margin-bottom:8px;transition:all .15s;text-decoration:none;}
+.link-card:hover{border-color:var(--blue);box-shadow:var(--shadow2);}
+.link-card-ico{font-size:24px;flex-shrink:0;}
+.link-card-title{font-size:14px;font-weight:700;color:var(--text);}
+.link-card-sub{font-size:11.5px;color:var(--text2);margin-top:2px;font-family:var(--mono);}
+.link-card-arrow{color:var(--text3);margin-left:auto;flex-shrink:0;font-size:16px;}
+
+/* ═══ ACCORDION ═══ */
+.accordion{background:var(--bg2);border:1px solid var(--border);
+           border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:8px;}
+.accordion-head{display:flex;align-items:center;gap:10px;padding:14px 16px;
+                width:100%;text-align:left;transition:background .1s;}
+.accordion-head:hover{background:var(--bg3);}
+.accordion-ico{font-size:20px;flex-shrink:0;}
+.accordion-title{font-size:14px;font-weight:700;color:var(--text);flex:1;min-width:0;word-break:break-word;}
+.accordion-sub{font-size:12px;color:var(--text2);margin-top:1px;word-break:break-word;}
+.accordion-arrow{color:var(--text3);flex-shrink:0;font-size:14px;font-weight:700;}
+.accordion-body{padding:0 16px 14px;border-top:1px solid var(--border);}
+
+/* ═══ BM GRID ═══ */
+.bm-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+@media(max-width:420px){.bm-grid{grid-template-columns:1fr;}}
+.bm-card{padding:14px;border-radius:var(--radius);border:2px solid;
+         cursor:pointer;text-align:left;transition:all .15s;width:100%;}
+.bm-card:hover{transform:translateY(-1px);box-shadow:var(--shadow2);}
+.bm-card-title{font-size:14px;font-weight:700;margin-bottom:2px;}
+.bm-card-sub{font-size:11.5px;opacity:.75;word-break:break-word;}
+.bm-freq{font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;
+         margin-top:8px;display:inline-block;font-family:var(--mono);}
+
+/* ═══ STEP NUM ═══ */
+.step-num{width:22px;height:22px;border-radius:50%;background:var(--text2);color:#fff;
+          font-size:11px;font-weight:700;display:inline-flex;align-items:center;
+          justify-content:center;flex-shrink:0;margin-top:2px;}
+
+/* ═══ DIVIDER ═══ */
+.div{height:1px;background:var(--border);margin:12px 0;}
+
+/* ═══ PWA LOADING ═══ */
+#splash{position:fixed;inset:0;background:var(--blue-d);display:flex;flex-direction:column;
+        align-items:center;justify-content:center;z-index:9999;transition:opacity .4s;}
+#splash.hidden{opacity:0;pointer-events:none;}
+.splash-ico{font-size:52px;margin-bottom:16px;}
+.splash-title{font-size:20px;font-weight:700;color:#fff;margin-bottom:6px;}
+.splash-sub{font-size:13px;color:rgba(255,255,255,.6);}
+</style>
+</head>
+<body>
+
+<!-- PWA Splash -->
+<div id="splash">
+  <div class="splash-ico">🫁</div>
+  <div class="splash-title">肺癌診治指引</div>
+  <div class="splash-sub" id="splash-msg">載入中…</div>
+</div>
+
+<script>
+/* ── Splash 保護：最多等 12 秒，若 React 未掛載則顯示錯誤 ── */
+var _splashTimer = setTimeout(function(){
+  var el = document.getElementById('splash');
+  var msg = document.getElementById('splash-msg');
+  if(el && !el.classList.contains('hidden')){
+    if(msg) msg.textContent = '載入失敗，請重新整理頁面';
+  }
+}, 12000);
+
+/* ── 全域錯誤捕捉：顯示在 splash 而非卡住 ── */
+window.addEventListener('error', function(e){
+  clearTimeout(_splashTimer);
+  var el = document.getElementById('splash');
+  var msg = document.getElementById('splash-msg');
+  if(el && !el.classList.contains('hidden')){
+    if(msg) msg.textContent = '錯誤：' + (e.message||'未知錯誤') + '，請重新整理';
+  }
+});
+</script>
+
+<div id="root"></div>
+
+<script>
+/* ── PWA Service Worker ── */
+if('serviceWorker' in navigator){
+  window.addEventListener('load',()=>{
+    const sw=`
+const CACHE='lung-v3.1';
+const ASSETS=[location.href];
+self.addEventListener('install',e=>{e.waitUntil(caches.open(CACHE).then(c=>c.addAll(ASSETS)));self.skipWaiting();});
+self.addEventListener('activate',e=>{e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k)))));});
+self.addEventListener('fetch',e=>{e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).then(res=>{const rc=res.clone();caches.open(CACHE).then(c=>c.put(e.request,rc));return res;})));});
+`;
+    const blob=new Blob([sw],{type:'application/javascript'});
+    navigator.serviceWorker.register(URL.createObjectURL(blob)).catch(()=>{});
+  });
+}
+</script>
+
+<script type="text/babel">
+const {useState,useEffect}=React;
+
+/* ── window width hook ── */
+function useW(){const [w,setW]=useState(window.innerWidth);useEffect(()=>{const h=()=>setW(window.innerWidth);window.addEventListener('resize',h);return()=>window.removeEventListener('resize',h);},[]);return w;}
+
+/* ── VERSION ── */
+const VI={
+  nsclc:"NCCN NSCLC v3.2026",nsclcDate:"2026/03/13",
+  sclc:"NCCN SCLC v2.2026", sclcDate:"2025/09/16",
+  tnm:"IASLC 9th / AJCC v9",
+  app:"v3.1",appDate:"2026/03/24",
+  nsclcUrl:"https://www.nccn.org/login?ReturnURL=https://www.nccn.org/professionals/physician_gls/pdf/nscl.pdf",
+  sclcUrl:"https://www.nccn.org/login?ReturnURL=https://www.nccn.org/professionals/physician_gls/pdf/sclc.pdf",
+};
+
+/* ── COLORS ── */
+const COL={
+  sky:{bg:"#dbeafe",border:"#3b82f6",text:"#1e40af",pill:"#2563eb",pillT:"#fff"},
+  violet:{bg:"#ede9fe",border:"#8b5cf6",text:"#4c1d95",pill:"#7c3aed",pillT:"#fff"},
+  cyan:{bg:"#cffafe",border:"#06b6d4",text:"#164e63",pill:"#0891b2",pillT:"#fff"},
+  amber:{bg:"#fef3c7",border:"#f59e0b",text:"#78350f",pill:"#d97706",pillT:"#fff"},
+  orange:{bg:"#ffedd5",border:"#f97316",text:"#7c2d12",pill:"#ea580c",pillT:"#fff"},
+  teal:{bg:"#ccfbf1",border:"#14b8a6",text:"#134e4a",pill:"#0d9488",pillT:"#fff"},
+  rose:{bg:"#ffe4e6",border:"#fb7185",text:"#881337",pill:"#e11d48",pillT:"#fff"},
+  indigo:{bg:"#e0e7ff",border:"#6366f1",text:"#312e81",pill:"#4f46e5",pillT:"#fff"},
+  pink:{bg:"#fce7f3",border:"#ec4899",text:"#831843",pill:"#db2777",pillT:"#fff"},
+  emerald:{bg:"#d1fae5",border:"#10b981",text:"#064e3b",pill:"#059669",pillT:"#fff"},
+  green:{bg:"#dcfce7",border:"#22c55e",text:"#14532d",pill:"#16a34a",pillT:"#fff"},
+  blue:{bg:"#dbeafe",border:"#3b82f6",text:"#1e3a8a",pill:"#2563eb",pillT:"#fff"},
+  red:{bg:"#fee2e2",border:"#ef4444",text:"#7f1d1d",pill:"#dc2626",pillT:"#fff"},
+  gray:{bg:"#f1f5f9",border:"#94a3b8",text:"#334155",pill:"#64748b",pillT:"#fff"},
+  lime:{bg:"#ecfccb",border:"#84cc16",text:"#365314",pill:"#65a30d",pillT:"#fff"},
+  yellow:{bg:"#fef9c3",border:"#eab308",text:"#713f12",pill:"#ca8a04",pillT:"#fff"},
+};
+const stageCols={IA1:"emerald",IA2:"emerald",IA3:"emerald",IB:"green",IIA:"lime",IIB:"yellow",IIIA:"amber",IIIB:"orange",IIIC:"red",IVA:"red",IVB:"red"};
+
+/* ════════════════════════════════════════
+   §1  STAGING DATA — 詳細 TNM 定義
+════════════════════════════════════════ */
+const TNM_TYPES=[
+  {v:"cTNM",desc:"臨床分期（治療前，依影像/切片/身體檢查）"},
+  {v:"pTNM",desc:"病理分期（手術切除標本後確認）"},
+  {v:"yTNM",desc:"新輔助治療後分期（前綴 y 標示）"},
+];
+
+const T_DATA=[
+  {v:"T1a",size:"≤1 cm",
+   criteria:"腫瘤最大徑 ≤1 cm",
+   detail:"局限於肺實質內，或侵犯臟層胸膜；支氣管鏡下未侵犯葉支氣管近端（即未達主支氣管）",
+   note:""},
+  {v:"T1b",size:">1–2 cm",
+   criteria:"腫瘤最大徑 >1 cm 且 ≤2 cm",
+   detail:"局限於肺實質內；侵犯條件同 T1a",
+   note:""},
+  {v:"T1c",size:">2–3 cm",
+   criteria:"腫瘤最大徑 >2 cm 且 ≤3 cm",
+   detail:"局限於肺實質內；侵犯條件同 T1a",
+   note:""},
+  {v:"T2a",size:">3–4 cm",
+   criteria:"腫瘤最大徑 >3 cm 且 ≤4 cm，或具下列任一特徵（不論大小）",
+   detail:"① 侵犯主支氣管（未達隆突）\n② 侵犯臟層胸膜（PL1/PL2）\n③ 伴有延伸至肺門的肺不張或阻塞性肺炎（未達全肺）",
+   note:""},
+  {v:"T2b",size:">4–5 cm",
+   criteria:"腫瘤最大徑 >4 cm 且 ≤5 cm",
+   detail:"侵犯條件同 T2a",
+   note:""},
+  {v:"T3",size:">5–7 cm",
+   criteria:"腫瘤最大徑 >5 cm 且 ≤7 cm，或具下列任一特徵（不論大小）",
+   detail:"① 侵犯壁層胸膜（PL3）\n② 侵犯胸壁（含 superior sulcus tumor）\n③ 侵犯膈神經\n④ 侵犯壁層心包膜\n⑤ 同一肺葉內的衛星結節（satellite nodule）",
+   note:""},
+  {v:"T4",size:">7 cm",
+   criteria:"腫瘤最大徑 >7 cm，或具下列任一特徵（不論大小）",
+   detail:"① 侵犯縱隔\n② 侵犯橫膈\n③ 侵犯心臟或大血管（主動脈、上/下腔靜脈、肺動靜脈）\n④ 侵犯氣管或隆突\n⑤ 侵犯食道\n⑥ 侵犯椎體（含椎管）\n⑦ 侵犯縱隔胸膜（visceral/parietal）\n⑧ 同側不同肺葉的衛星結節",
+   note:""},
+];
+
+const N_DATA=[
+  {v:"N0",g:"N0",
+   criteria:"無區域淋巴結轉移"},
+  {v:"N1",g:"N1",
+   criteria:"同側支氣管周圍和/或同側肺門淋巴結，及肺內淋巴結轉移，包括直接侵犯",
+   detail:"包含：第 10（肺門）、11（葉間）、12（葉）、13（段）、14（次段）站"},
+  {v:"N2a1",g:"N2",
+   criteria:"單站 N2，且無 N1 受侵（Skip N2 metastasis）",
+   detail:"IASLC 9th 新亞分類。跳過 N1 直接轉移至縱隔淋巴結（第 2–9 站），預後優於 N2a2",
+   note:"⚠️ 預後較 N2a2 佳，部分可考慮手術"},
+  {v:"N2a2",g:"N2",
+   criteria:"單站 N2 + N1 同時受侵",
+   detail:"第 2–9 站縱隔淋巴結之單站轉移，且同時有 N1 淋巴結受侵",
+   note:""},
+  {v:"N2b",g:"N2",
+   criteria:"多站 N2 縱隔淋巴結轉移",
+   detail:"包含兩站以上同側縱隔/隆突下淋巴結（第 2–9 站）受侵",
+   note:"⚠️ 通常不可切除，需 MDT 評估"},
+  {v:"N3",g:"N3",
+   criteria:"對側縱隔、對側肺門、同側或對側斜角肌、鎖骨上淋巴結轉移",
+   detail:"對側：縱隔（第 2–9 站）、肺門（第 10 站）\n同側或對側：斜角肌（第 1 站）、鎖骨上（第 1 站）",
+   note:"⚠️ 不可切除"},
+];
+
+const M_DATA=[
+  {v:"M0",g:"M0",
+   criteria:"無遠處轉移"},
+  {v:"M1a",g:"M1a",
+   criteria:"胸腔內擴散（不含肺內轉移）",
+   detail:"① 對側肺葉之轉移結節\n② 胸膜或心包膜結節\n③ 惡性胸腔積液\n④ 惡性心包積液",
+   note:"注意：惡性積液即使細胞學陽性也歸 M1a，但找不到其他 M1 依據者"},
+  {v:"M1b",g:"M1b",
+   criteria:"單一器官之單一遠處轉移（Oligometastatic）",
+   detail:"單一胸腔外器官的單一轉移灶\n例：單一腦轉移、單一肝轉移、單一腎上腺轉移",
+   note:"💡 積極局部治療（SRS/SBRT）可改善預後"},
+  {v:"M1c1",g:"M1c",
+   criteria:"單一器官之多處遠處轉移",
+   detail:"同一胸腔外器官有多個轉移灶\n例：多個腦轉移但無其他遠端轉移",
+   note:""},
+  {v:"M1c2",g:"M1c",
+   criteria:"多個器官之多處遠處轉移",
+   detail:"兩個以上胸腔外器官均有轉移灶",
+   note:""},
+];
+
+const STAGE_RULES={"T1a-N0":"IA1","T1b-N0":"IA2","T1c-N0":"IA3","T2a-N0":"IB","T2b-N0":"IIA","T3-N0":"IIB","T1a-N1":"IIB","T1b-N1":"IIB","T1c-N1":"IIB","T2a-N1":"IIB","T2b-N1":"IIB","T3-N1":"IIIA","T4-N0":"IIIA","T4-N1":"IIIA","T1a-N2":"IIIA","T1b-N2":"IIIA","T1c-N2":"IIIA","T2a-N2":"IIIA","T2b-N2":"IIIA","T3-N2":"IIIB","T4-N2":"IIIB","T1a-N3":"IIIB","T1b-N3":"IIIB","T1c-N3":"IIIB","T2a-N3":"IIIB","T2b-N3":"IIIB","T3-N3":"IIIC","T4-N3":"IIIC"};
+
+function calcNS(T,N,M){
+  if(!T||!N||!M)return null;
+  const Ng=N_DATA.find(o=>o.v===N)?.g||N;
+  const Mg=M_DATA.find(o=>o.v===M)?.g||M;
+  if(Mg==="M1c")return"IVB";
+  if(Mg==="M1b"||Mg==="M1a")return"IVA";
+  return STAGE_RULES[`${T}-${Ng}`]||null;
+}
+function calcSCLC(T,N,M){
+  if(!T||!N||!M)return null;
+  const Mg=M_DATA.find(o=>o.v===M)?.g||M;
+  if(Mg!=="M0")return{type:"es",label:"廣泛期 (ES-SCLC)",c:"red",desc:"任何 M1，以全身系統治療為主",txKey:"sclc-es"};
+  const early=["T1a","T1b","T1c","T2a","T2b"].includes(T);
+  if(early&&N==="N0")return{type:"ls1",label:"局限期 Stage I–IIA",c:"emerald",desc:"T1-2 N0 M0，評估手術可行性",txKey:"sclc-ls1"};
+  return{type:"ls2",label:"局限期 Stage IIB–IIIC",c:"blue",desc:"N+ 或 T3-4，同步 cCRT 為主",txKey:"sclc-ls2"};
+}
+
+/* ════════════════════════════════════════
+   §2  TREATMENT DATA
+════════════════════════════════════════ */
+const TX={
+"nsclc-I":{title:"NSCLC Stage I",sub:"T1-2 N0 M0 — 早期，可手術評估",bm:["EGFR"],src:VI.nsclc,
+  pref:[
+    {d:"肺葉切除術（Lobectomy）＋ 系統性縱隔淋巴結廓清",cat:"Cat.1",n:"標準外科術式"},
+    {d:"解剖性肺段切除（Segmentectomy）",cat:"Cat.1",n:"IA1–IA2 且腫瘤 ≤2 cm，非劣效於肺葉切除"},
+    {d:"SBRT / SABR 60–54 Gy / 3–5 分次",cat:"Cat.1",n:"不可手術者，局部控制率 >90%"},
+  ],
+  adj:[
+    {d:"Osimertinib 80mg QD × 3 年",trial:"ADAURA",cat:"Cat.1",n:"EGFR ex19del/L858R，Stage IB–IIIA"},
+    {d:"Atezolizumab（PD-L1 ≥1%，無 EGFR/ALK，Stage II–IIIA）",trial:"IMpower010",cat:"Cat.1"},
+    {d:"Pembrolizumab 200mg q3w × 1 年",trial:"KEYNOTE-091",cat:"Cat.2A",n:"Stage IB–IIIA"},
+    {d:"Cisplatin-based 輔助化療（Stage IB 慎選；pT2b 可考慮）"},
+  ],
+  notes:["Stage IA：術後通常不需輔助化療","術前應完成 EGFR / ALK / PD-L1 完整檢測（輔助治療需要）"]},
+
+"nsclc-II":{title:"NSCLC Stage II",sub:"T3N0 / T1-2N1 M0 — 手術＋輔助治療",bm:["EGFR"],src:VI.nsclc,
+  pref:[
+    {d:"肺葉切除術 ＋ 系統性縱隔淋巴結廓清",cat:"Cat.1"},
+    {d:"Nivolumab ＋ 化療（新輔助 3 週期）→ 手術 → Nivolumab × 1 年（輔助）",trial:"CheckMate 816",cat:"Cat.1",n:"Stage IIA–IIIA"},
+  ],
+  adj:[
+    {d:"Osimertinib 80mg QD × 3 年（EGFR 陽性）",trial:"ADAURA",cat:"Cat.1"},
+    {d:"Atezolizumab（PD-L1 ≥1%，無 EGFR/ALK）",trial:"IMpower010",cat:"Cat.1"},
+    {d:"Cisplatin-based 化療 × 4 週期",cat:"Cat.1"},
+  ],
+  notes:["術前影像：PET/CT ＋ 腦部 MRI（標準分期）","R1 切除後：考慮術後放療（PORT）","術中 N2 發現：需 MDT 重新評估可切除性"]},
+
+"nsclc-IIIA-res":{title:"NSCLC Stage IIIA — 可切除",sub:"T3-4N1 / T1-3N2 — MDT 確認可達 R0",bm:["EGFR"],src:VI.nsclc,
+  pref:[
+    {d:"Nivolumab ＋ 化療（新輔助 3 週期）→ 手術 → Nivolumab × 1 年",trial:"CheckMate 816",cat:"Cat.1"},
+    {d:"同步 cCRT → 手術（N2 降期後評估）",n:"需 MDT 評估手術時機"},
+  ],
+  adj:[
+    {d:"Osimertinib 80mg QD × 3 年（EGFR 陽性）",trial:"ADAURA",cat:"Cat.1"},
+    {d:"Cisplatin-based 化療 × 4 週期"},
+  ],
+  notes:["N2 可切除性需 MDT 共識（non-bulky N2 vs bulky N2）","Durvalumab 用於不可切除者；可切除者術後以 Osimertinib/Atezolizumab 為主","術前需完成 PD-L1 ＋ 完整 driver mutation 分析"]},
+
+"nsclc-III-unres":{title:"NSCLC Stage III — 不可切除",sub:"局部晚期，無法達到 R0 切除",bm:["PDL1"],src:VI.nsclc,
+  pref:[
+    {d:"Cisplatin ＋ Etoposide ＋ 同步放療（60–66 Gy）",cat:"Cat.1"},
+    {d:"Carboplatin ＋ Paclitaxel ＋ 同步放療",cat:"Cat.1",n:"Cisplatin 不耐受替代"},
+    {d:"Durvalumab 1500mg q4w × 最多 12 個月（cCRT 後未進展）",trial:"PACIFIC",cat:"Cat.1"},
+  ],
+  other:[
+    {d:"Cisplatin ＋ Pemetrexed ＋ 同步放療（非鱗）",cat:"Cat.2A"},
+    {d:"序貫化療 → 放療（PS 差 / 無法同步者）"},
+  ],
+  notes:["放療前：確認 FEV1 / DLCO；肺 V20 <30–35%","PACIFIC 更新：PD-L1 TPS 不影響 Durvalumab 決策","EGFR/ALK 突變者：cCRT 後 Durvalumab 療效存疑，建議 MDT 討論"]},
+
+"nsclc-IV-driver":{title:"NSCLC Stage IV — 有 Driver Mutation",sub:"Targetable oncogenic driver 確認陽性",bm:["EGFR","ALK","ROS1","BRAF","KRAS","MET","RET","NTRK","HER2"],src:VI.nsclc,
+  pref:[{d:"依 Biomarker 選擇對應一線 TKI（→ 見「標記」頁）",cat:"Cat.1",n:"一線首選，不建議先給 ICI"}],
+  other:[],
+  notes:["EGFR/ALK 陽性：一線不建議 ICI（irAE 風險高且 OS 無獲益）","腦轉移：Osimertinib（EGFR）/ Alectinib 或 Lorlatinib（ALK）優先（CNS 穿透力強）","KRAS G12C：一線仍走 ICI ± chemo；G12C 抑制劑目前為二線","疾病進展後：重新切片評估耐藥機制（T790M / MET 擴增 / 旁路活化）"]},
+
+"nsclc-IV-nd-high":{title:"NSCLC Stage IV — 無 Driver · PD-L1 ≥50%",sub:"免疫優勢族群，可考慮 ICI 單藥",bm:["PDL1"],src:VI.nsclc,
+  pref:[
+    {d:"Pembrolizumab 200mg q3w 單藥",trial:"KEYNOTE-024",cat:"Cat.1",n:"PFS 10.3 vs 6 mo；PS 0-1"},
+    {d:"Pembrolizumab ＋ Cis/Carbo ＋ Pemetrexed（非鱗）",trial:"KEYNOTE-189",cat:"Cat.1"},
+    {d:"Pembrolizumab ＋ Carbo ＋ Paclitaxel/nab-Pac（鱗）",trial:"KEYNOTE-407",cat:"Cat.1"},
+  ],
+  other:[
+    {d:"Nivolumab ＋ Ipilimumab ± 化療 2 週期",trial:"CheckMate 9LA / 227",cat:"Cat.1"},
+    {d:"Atezolizumab ＋ Bev ＋ Carbo ＋ Pac（非鱗；EGFR/ALK 後線亦可）",trial:"IMpower150",cat:"Cat.1"},
+  ],
+  notes:["TPS ≥50%：單藥 Pembro Cat.1；但高腫瘤負荷者考慮 Pembro＋化療","寡轉移（M1b）：系統治療 ＋ 消融性局部治療（SRS / SBRT）","症狀性腦轉移：先局部治療（SRS/WBRT）→ 後系統治療"]},
+
+"nsclc-IV-nd-mid":{title:"NSCLC Stage IV — 無 Driver · PD-L1 1–49%",sub:"中等 PD-L1，ICI 需與化療併用",bm:["PDL1"],src:VI.nsclc,
+  pref:[
+    {d:"Pembrolizumab ＋ Cis/Carbo ＋ Pemetrexed（非鱗）",trial:"KEYNOTE-189",cat:"Cat.1"},
+    {d:"Pembrolizumab ＋ Carbo ＋ Paclitaxel/nab-Pac（鱗）",trial:"KEYNOTE-407",cat:"Cat.1"},
+  ],
+  other:[{d:"Nivolumab ＋ Ipilimumab ± 化療 2 週期",trial:"CheckMate 9LA / 227",cat:"Cat.1"}],
+  notes:["TPS 1–49%：不建議 ICI 單藥（KEYNOTE-024 亞組療效較差）","Carboplatin 替代 Cisplatin：腎功能不良 / 神經毒性 / 高齡","Pemetrexed 維持：非鱗腺癌 PR/SD 患者"]},
+
+"nsclc-IV-nd-low":{title:"NSCLC Stage IV — 無 Driver · PD-L1 <1%",sub:"低免疫，以化療＋ICI 組合為主",bm:["PDL1"],src:VI.nsclc,
+  pref:[
+    {d:"Pembrolizumab ＋ Cis/Carbo ＋ Pemetrexed（非鱗）",trial:"KEYNOTE-189",cat:"Cat.1"},
+    {d:"Pembrolizumab ＋ Carbo ＋ Paclitaxel/nab-Pac（鱗）",trial:"KEYNOTE-407",cat:"Cat.1"},
+    {d:"Nivolumab ＋ Ipilimumab ＋ 化療 2 週期",trial:"CheckMate 9LA",cat:"Cat.1"},
+  ],
+  other:[],
+  notes:["PD-L1 <1%：ICI 單藥無效（Cat.3），必須與化療併用","TMBI 高（≥10 mut/Mb）：Nivo ＋ Ipi 仍可考慮（CheckMate 227）","化療 ＋ ICI：ORR ~48–60%，不受 PD-L1 低表現影響"]},
+
+"nsclc-IV-ps-poor":{title:"NSCLC Stage IV — PS 差 ECOG 3–4",sub:"體能狀態不良，治療耐受度受限",bm:[],src:VI.nsclc,
+  pref:[
+    {d:"最佳支持性療護（BSC）＋ 姑息放療（骨轉移/腦轉移/SVCO）",cat:"Cat.1"},
+    {d:"若有 EGFR/ALK driver：TKI 單藥（口服，低毒性）仍可考慮",n:"視 PS 原因判斷（腫瘤性可逆 vs 基礎疾病）"},
+  ],
+  other:[{d:"Carboplatin 單藥（AUC 5–6）× 4–6 週期",n:"ECOG 2 邊界患者"}],
+  notes:["區分 PS 原因：腫瘤所致（可逆）vs 基礎疾病（不可逆）","可逆性 PS 差：試驗性化療 2 週期後重新評估","不建議雙藥化療或 ICI（毒性風險 > 獲益）"]},
+
+"sclc-ls1":{title:"SCLC 局限期 Stage I–IIA",sub:"T1-2 N0 M0 — 評估手術可行性",bm:[],src:VI.sclc,
+  pref:[
+    {d:"手術切除（肺葉切除 ＋ 縱隔廓清）→ 術後化療（Carbo/Cis ＋ Etopo × 4）",n:"可手術者首選"},
+    {d:"Cisplatin ＋ Etoposide × 4 ＋ 同步胸部放療（45 Gy BID）",trial:"INT 0096",cat:"Cat.1",n:"不可手術者"},
+    {d:"Durvalumab 1500mg q28d 鞏固治療 × 最多 24 個月",trial:"ADRIATIC",cat:"Cat.1",n:"OS HR 0.73；cCRT 或術後化療後未進展"},
+  ],
+  other:[
+    {d:"SBRT / SABR（極早期，不可手術）",cat:"Cat.2B"},
+    {d:"54 Gy SIB BID（放療替代方案）",trial:"Yu J Phase 3"},
+  ],
+  notes:["手術後 pN1/N2 發現：追加術後化放療","若計畫 PCI：需在 Durvalumab 前完成；目前 MRI 監測策略漸趨主流"]},
+
+"sclc-ls2":{title:"SCLC 局限期 Stage IIB–IIIC",sub:"N＋ 或 T3-4 — 同步化放療為主",bm:[],src:VI.sclc,
+  pref:[
+    {d:"Cisplatin ＋ Etoposide × 4–6 ＋ 同步胸部放療（45 Gy BID）",trial:"INT 0096 / CONVERT",cat:"Cat.1"},
+    {d:"Durvalumab 1500mg q28d 鞏固治療 × 最多 24 個月",trial:"ADRIATIC",cat:"Cat.1",n:"OS HR 0.73（vs placebo）"},
+  ],
+  other:[
+    {d:"Carboplatin ＋ Etoposide（Cisplatin 不耐受替代）"},
+    {d:"54 Gy SIB BID（OS 優勢）",trial:"Yu J Phase 3"},
+    {d:"66 Gy QD（試驗中）",trial:"CALGB 30610"},
+  ],
+  notes:["PS 0-2：同步 cCRT 優先；PS 3-4：化療優先，放療視況而定","腦部 MRI 追蹤：CR/PR 後每 3 個月 × 1 年，後每 6 個月"]},
+
+"sclc-es":{title:"SCLC 廣泛期 (ES-SCLC)",sub:"任何 M1 — 全身系統治療為主",bm:[],src:VI.sclc,
+  pref:[
+    {d:"Carboplatin AUC5 ＋ Etoposide ＋ Atezolizumab 1200mg（q21d × 4）→ Atezolizumab 維持",trial:"IMpower133",cat:"Cat.1"},
+    {d:"Cis/Carbo ＋ Etoposide ＋ Durvalumab → Durvalumab 維持",trial:"CASPIAN",cat:"Cat.1"},
+  ],
+  other:[
+    {d:"Carboplatin ＋ Etoposide（無 ICI 指徵或禁忌者）"},
+    {d:"Lurbinectedin 加入 Atezolizumab 維持（≥SD 後，符合條件）",trial:"IMforte",n:"ECOG 0-1 ＋ 無腦轉移病史"},
+  ],
+  notes:["後線：Tarlatamab-dlle 10mg q21d（Cat.1）；v2.2026 已移除 CTFI 限制（DeLLphi-301）","Lurbinectedin 加入維持：≥SD after 4 cycles ＋ ECOG 0-1 ＋ 無腦轉移病史","脊髓壓迫（MESCC）：緊急放療 ＋ Dexamethasone（最高優先）"]},
+};
+
+/* ════════════════════════════════════════
+   §3  BIOMARKER DATA
+════════════════════════════════════════ */
+const BM=[
+  {id:"EGFR",l:"EGFR 突變",sub:"Exon 18/19/20/21",freq:"~15%（亞洲 ~50%）",c:"sky",test:"NGS / ddPCR / Cobas",
+   mut:["Exon 19 del（~45%，最常見）","Exon 21 L858R（~40%）","Exon 18 G719X","Exon 20 ins（標準 TKI 相對抗拒）"],
+   first:[{d:"Osimertinib 80mg QD",trial:"FLAURA / FLAURA2",cat:"Cat.1",n:"ex19del/L858R；CNS ORR >60%"}],
+   other:[{d:"Osimertinib ＋ Cis/Carbo ＋ Pem",trial:"FLAURA2",cat:"Cat.1",n:"更高腫瘤負荷考慮"},{d:"Erlotinib ＋ Ramucirumab 10mg/kg q2w",trial:"RELAY",cat:"Cat.1"},{d:"Afatinib 40mg QD",trial:"LUX-Lung 3/6/7"}],
+   cns:"Osimertinib：CNS ORR >60%，為腦轉移首選 TKI；FLAURA2 腦轉移亞組可延後放療",
+   res:["T790M（1st/2nd gen TKI 後）→ Osimertinib（Cat.1）","C797S ＋ T790M → 組合策略或臨床試驗","Exon 20 ins：Amivantamab ＋ 化療（PAPILLON，Cat.1）"],txLink:"nsclc-IV-driver"},
+  {id:"ALK",l:"ALK 融合",sub:"EML4-ALK 等多種融合",freq:"~5%",c:"violet",test:"IHC / FISH / NGS",
+   mut:["EML4-ALK v1/v2/v3（最常見）","KIF5B-ALK","其他融合伴侶"],
+   first:[{d:"Alectinib 600mg BID",trial:"ALEX / J-ALEX",cat:"Cat.1",n:"PFS 34.8 mo；CNS ORR 81%"},{d:"Lorlatinib 100mg QD",trial:"CROWN",cat:"Cat.1",n:"5yr-PFS 60%；CNS 穿透最強"},{d:"Brigatinib 180mg QD（7d lead-in 90mg）",trial:"ALTA-1L",cat:"Cat.1"}],
+   other:[{d:"Ceritinib 450mg QD（with meal）",trial:"ASCEND-4"}],
+   cns:"Lorlatinib：腦/脊髓液穿透最強，多發或進展性腦轉移首選；Alectinib CNS ORR 81%",
+   res:["G1202R → 對 Lorlatinib 較敏感","Crizotinib 不再建議一線（已被 2/3 代取代）","先前 Alectinib 失敗 → Lorlatinib（有效率 ~47%）"],txLink:"nsclc-IV-driver"},
+  {id:"ROS1",l:"ROS1 融合",sub:"CD74-ROS1 等",freq:"~1–2%",c:"cyan",test:"NGS / FISH",
+   mut:["CD74-ROS1（最常見）","SLC34A2-ROS1","CCDC6-ROS1"],
+   first:[{d:"Entrectinib 600mg QD",trial:"STARTRK-2",cat:"Cat.1",n:"CNS 活性佳"},{d:"Crizotinib 250mg BID",trial:"PROFILE 1001",cat:"Cat.1"}],
+   other:[{d:"Repotrectinib 160mg QD",trial:"TRIDENT-1",n:"G2032R 耐藥可用"}],
+   cns:"Entrectinib：CNS 穿透力佳（STARTRK-2 腦轉移有效）",
+   res:["G2032R（Entrectinib/Crizotinib 後）→ Repotrectinib","ROS1 與 ALK kinase domain 相似，部分 ALK 藥物有活性"],txLink:"nsclc-IV-driver"},
+  {id:"BRAF",l:"BRAF V600E",sub:"點突變 Class I",freq:"~2–3%",c:"amber",test:"NGS",
+   mut:["V600E（Class I，最常見）","Class II/III 非 V600（策略不同）"],
+   first:[{d:"Dabrafenib 150mg BID ＋ Trametinib 2mg QD",trial:"BRF113928",cat:"Cat.1",n:"ORR 64%，PFS 10.8 mo"}],
+   other:[],
+   cns:"Dabrafenib ＋ Trametinib：有腦轉移活性（個案系列及延伸分析）",
+   res:["BRAF Class II/III 非 V600E：無批准靶向治療，建議臨床試驗","V600E 耐藥機制：NRAS/MEK 旁路"],txLink:"nsclc-IV-driver"},
+  {id:"KRAS",l:"KRAS G12C",sub:"點突變（吸菸者為主）",freq:"~13%",c:"orange",test:"NGS",
+   mut:["KRAS G12C（吸菸者相對常見）","KRAS G12D/V 等（目前無批准靶向藥）"],
+   first:[{d:"Sotorasib 960mg QD（二線）",trial:"CodeBreaK 200",cat:"Cat.1"},{d:"Adagrasib 600mg BID（二線）",trial:"KRYSTAL-1",cat:"Cat.1"}],
+   other:[{d:"Adagrasib ＋ Cetuximab（一線研究中）",trial:"KRYSTAL-7"}],
+   cns:"Adagrasib：部分腦轉移活性（KRYSTAL-7 腦轉移亞組）",
+   res:["KRAS G12C 抑制劑目前為二線（一線仍走 ICI ± chemo）","G12D/V/其他亞型：目前無批准靶向藥"],txLink:"nsclc-IV-nd-high"},
+  {id:"MET",l:"MET Exon 14",sub:"跳躍突變（Skipping）",freq:"~3–4%",c:"teal",test:"NGS（DNA ＋ RNA 優先）",
+   mut:["MET exon 14 skipping mutation（剪接位點突變）","多形性腺癌（Pleomorphic）相對常見"],
+   first:[{d:"Tepotinib 500mg QD",trial:"VISION",cat:"Cat.1",n:"ORR 46%，PFS 11.0 mo"},{d:"Capmatinib 400mg BID",trial:"GEOMETRY mono-1",cat:"Cat.1"}],
+   other:[{d:"Crizotinib 250mg BID",n:"替代選擇（活性較低）"}],
+   cns:"Tepotinib：有限腦轉移活性；VISION 腦轉移亞組 ORR ~54%",
+   res:["MET exon 14 跳躍突變 ≠ MET 擴增（copy number gain）：治療策略不同","MET 擴增作為 EGFR TKI 耐藥機制：TKI ＋ MET 抑制劑組合"],txLink:"nsclc-IV-driver"},
+  {id:"RET",l:"RET 融合",sub:"KIF5B-RET 等",freq:"~1–2%",c:"rose",test:"NGS（DNA ＋ RNA 優先）",
+   mut:["KIF5B-RET（最常見，~70%）","CCDC6-RET","NCOA4-RET"],
+   first:[{d:"Selpercatinib 160mg BID",trial:"LIBRETTO-431",cat:"Cat.1",n:"PFS 22.0 vs 11.2 mo"},{d:"Pralsetinib 400mg QD（空腹）",trial:"ARROW",cat:"Cat.1"}],
+   other:[],
+   cns:"兩者均有 CNS 活性；腦轉移患者可直接使用（無需先局部治療）",
+   res:["非選擇性 RET 抑制劑（Vandetanib/Cabozantinib）已非首選","Selpercatinib 耐藥：on-target kinase domain 突變"],txLink:"nsclc-IV-driver"},
+  {id:"NTRK",l:"NTRK 融合",sub:"泛癌種 NTRK1/2/3",freq:"<1%",c:"indigo",test:"Pan-TRK IHC 篩選 → NGS 確認",
+   mut:["NTRK1/2/3 基因融合（多種伴侶基因，pan-cancer 適應症）"],
+   first:[{d:"Larotrectinib 100mg BID",trial:"NAVIGATE / SCOUT",cat:"Cat.1",n:"ORR 79%（pan-cancer）"},{d:"Entrectinib 600mg QD",trial:"STARTRK-2",cat:"Cat.1",n:"CNS 活性"}],
+   other:[],
+   cns:"Entrectinib：較佳 CNS 穿透力（STARTRK-2 腦轉移有效）",
+   res:["Larotrectinib 耐藥 → 二代 TRK 抑制劑（Selitrectinib/Repotrectinib）","肺癌 NTRK 陽性率 <1%；非吸菸 / 年輕者相對較高"],txLink:"nsclc-IV-driver"},
+  {id:"HER2",l:"HER2 突變",sub:"Exon 20 ins 為主",freq:"~3%（突變）",c:"pink",test:"NGS（突變）/ IHC（過表現）",
+   mut:["HER2 exon 20 ins A775insYVMA（~40%，最常見）","HER2 L755S / V777L","HER2 過表現（IHC 2＋/3＋）"],
+   first:[{d:"T-DXd (Trastuzumab deruxtecan) 5.4mg/kg q3w",trial:"DESTINY-Lung02",cat:"Cat.1",n:"ORR 57.7%（HER2 突變）"}],
+   other:[{d:"Poziotinib（HER2 exon 20 ins 二線）",cat:"Cat.2B"}],
+   cns:"T-DXd：有腦轉移活性（DESTINY-Lung02 腦轉移亞組）",
+   res:["HER2 突變 vs 過表現（IHC 3＋）治療策略不同","HER2 過表現：T-DXd 亦有效（DESTINY-Lung05）"],txLink:"nsclc-IV-driver"},
+  {id:"PDL1",l:"PD-L1 TPS",sub:"免疫治療標記（全部患者必查）",freq:"全部患者必查",c:"emerald",test:"IHC 22C3 pharmDx (Dako) — 22C3 抗體",
+   mut:["TPS ≥50%：高表現（免疫優勢族群）","TPS 1–49%：低 / 中表現","TPS <1%：陰性"],
+   first:[{d:"TPS ≥50%（無 driver）：Pembrolizumab 200mg q3w 單藥",trial:"KEYNOTE-024",cat:"Cat.1"},{d:"任意 TPS：Pembro ＋ Cis/Carbo ＋ Pem（非鱗）",trial:"KEYNOTE-189",cat:"Cat.1"},{d:"任意 TPS：Pembro ＋ Carbo ＋ Pacl/nab-Pac（鱗）",trial:"KEYNOTE-407",cat:"Cat.1"}],
+   other:[{d:"Nivo ＋ Ipi ± 化療 2 週期",trial:"CheckMate 9LA / 227",cat:"Cat.1"},{d:"Atezolizumab ＋ Bev ＋ Carbo ＋ Pac（非鱗；EGFR/ALK 後線可用）",trial:"IMpower150",cat:"Cat.1"}],
+   cns:"ICI 對腦轉移有一定效果，但症狀性腦轉移仍建議先局部治療（SRS/WBRT）",
+   res:["EGFR/ALK 陽性：一線 ICI 無效且 irAE 風險增加，不建議","PD-L1 <1%：ICI 單藥無效（Cat.3），需與化療併用"],txLink:"nsclc-IV-nd-high"},
+];
+
+/* ════════════════════════════════════════
+   §4  SPECIAL SCENARIOS
+════════════════════════════════════════ */
+const SC=[
+  {id:"stage3",i:"🔴",t:"Stage III 不可切除",s:"局部晚期，無法達到 R0",
+   body:["定義：侵犯大血管/心臟/氣管、N3、MDT 評估無法 R0 切除","標準：同步 cCRT（60–66 Gy）→ Durvalumab 鞏固 × 12 月","放療前：確認 FEV1/DLCO；肺 V20 <30–35%；IMRT 優於 3D-CRT","EGFR/ALK 突變者：cCRT 後 Durvalumab 療效存疑，需 MDT 討論","PACIFIC 更新：PD-L1 TPS 不影響 Durvalumab 決策"],
+   ref:"PACIFIC trial (NEJM 2017)；NCCN Cat.1",txKey:"nsclc-III-unres"},
+  {id:"oligo",i:"🟡",t:"寡轉移 Oligometastatic",s:"Stage IVA — M1b，單一器官單一轉移",
+   body:["定義：≤3–5 個轉移灶（各機構定義略異）","策略：系統治療 ＋ 消融性局部治療（SRS/SBRT/手術切除）","有 driver：TKI ＋ 局部消融（延遲更換系統治療時機）","無 driver：ICI ± 化療 ＋ 局部消融（SINDAS 結果支持）","胸部寡轉移：評估同步化放療可行性"],
+   ref:"SINDAS trial；NCCN NSCLC Cat.2A",txKey:"nsclc-IV-nd-high"},
+  {id:"brain",i:"🧠",t:"腦轉移",s:"症狀性或無症狀性腦部轉移",
+   body:["症狀性/大病灶（>3 cm）：先 SRS（1–4 個）或 WBRT（多發）→ 系統治療","無症狀腦轉移 ＋ EGFR：Osimertinib 可延後放療（FLAURA2 腦轉移亞組）","ALK：Alectinib（PFS 34.8 mo）或 Lorlatinib（最強 CNS 活性；CROWN）","軟腦膜轉移（LMD）：Osimertinib 160mg；Intrathecal MTX（需 MDT）","SCLC 腦轉移：SRS 或 WBRT；MRI 監測替代預防性 PCI"],
+   ref:"FLAURA2；CROWN；EORTC 22952",txKey:null},
+  {id:"poor-ps",i:"⚠️",t:"PS 不良 ECOG 2–4",s:"體能狀態差，治療耐受度受限",
+   body:["ECOG 2：單藥化療 / 減量 Carbo＋Etopo / ICI 單藥（PD-L1 ≥50%）","ECOG 3–4：以緩解症狀為主（姑息放療 / BSC）","區分：PS 因腫瘤所致（可逆）vs 基礎疾病（不可逆）","可逆性 PS 差：試驗性化療 2 週期後重新評估","Carboplatin-based 優先（避免 Cisplatin 腎/神經毒性）"],
+   ref:"NCCN PS scoring guidelines",txKey:"nsclc-IV-ps-poor"},
+  {id:"elderly",i:"👴",t:"高齡/衰弱患者",s:"≥70 歲或 Frailty 評估陽性",
+   body:["CGA（Comprehensive Geriatric Assessment）治療前建議進行","Carboplatin 替代 Cisplatin（腎毒性/聽毒性/嘔吐考量）","單藥 Vinorelbine / Gemcitabine（衰弱 ECOG 2）","ICI 單藥：年齡本身非禁忌，但 irAE 需積極監測","TKI（EGFR/ALK）：高齡不影響療效，注意多重用藥交互作用"],
+   ref:"ELVIS trial；IFCT-0501 trial",txKey:null},
+  {id:"recur",i:"🔁",t:"術後復發",s:"根治性切除後局部或遠處復發",
+   body:["局部復發（無遠處轉移）：評估再次手術 / SBRT / cCRT","遠處復發：視為 Stage IV 重新處理，補完整分子分型","EGFR/ALK 狀態重新評估（術前未做或腫瘤演化）","T790M（1st/2nd gen TKI 耐藥）→ Osimertinib","Osimertinib 輔助後復發：機制複雜，優先考慮臨床試驗"],
+   ref:"NCCN Recurrence；ADAURA extension",txKey:null},
+  {id:"sclc-vs",i:"🔵",t:"SCLC 局限期 vs 廣泛期",s:"分期是 SCLC 最關鍵治療分叉點",
+   body:["局限期：腫瘤局限一側胸腔，可納入安全放療野（含對側肺門/縱隔/鎖骨上）","廣泛期：任何 M1（含對側肺結節、惡性胸水）","LS：同步 cCRT ＋ Durvalumab 鞏固（ADRIATIC：OS HR 0.73）","ES：Carbo ＋ Etopo ＋ ICI（IMpower133 / CASPIAN）→ 維持 ICI","後線：Tarlatamab 10mg Cat.1（DeLLphi-301；v2.2026 移除 CTFI 限制）"],
+   ref:"ADRIATIC；IMpower133；CASPIAN；DeLLphi-301",txKey:"sclc-es"},
+  {id:"emerg",i:"🚨",t:"緊急表現",s:"SVCO / 氣道阻塞 / 大量胸水 / 脊髓壓迫",
+   body:["SVCO 症候群：Stent 置入（最快速緩解）→ 化療 ± 放療","中央氣道阻塞：硬式支氣管鏡 ＋ 支架 → 化療/放療","大量惡性胸水：Thoracentesis ＋ 胸膜固定術 / PleurX 引流","心包填塞：心包穿刺 / 心包造口 → 系統治療","脊髓壓迫（MESCC）：放療（緊急最高優先）＋ Dexamethasone 16mg/d"],
+   ref:"ESMO Supportive care guidelines",txKey:null},
+];
+
+/* ════════════════════════════════════════
+   §5  REFERENCE DATA
+════════════════════════════════════════ */
+const KT=[
+  {n:"FLAURA / FLAURA2",d:"Osimertinib 一線 EGFR 突變 NSCLC（±化療）",r:"NEJM 2018 / 2023"},
+  {n:"ALEX / CROWN",d:"Alectinib / Lorlatinib 一線 ALK 融合 NSCLC",r:"NEJM 2017 / 2020"},
+  {n:"CheckMate 816",d:"Nivolumab 新輔助 Stage IIA–IIIA NSCLC",r:"NEJM 2022"},
+  {n:"PACIFIC",d:"Durvalumab 維持不可切除 Stage III NSCLC",r:"NEJM 2017"},
+  {n:"KEYNOTE-024/189/407",d:"Pembrolizumab ± 化療治療轉移性 NSCLC",r:"NEJM 2016/2018/2018"},
+  {n:"ADAURA",d:"Osimertinib 術後輔助 EGFR NSCLC",r:"NEJM 2020"},
+  {n:"ADRIATIC",d:"Durvalumab 鞏固局限期 SCLC（cCRT 後）",r:"NEJM 2024；OS HR 0.73"},
+  {n:"IMpower133",d:"Atezolizumab ＋ 化療治療廣泛期 SCLC",r:"NEJM 2018"},
+  {n:"CASPIAN",d:"Durvalumab ＋ 化療治療廣泛期 SCLC",r:"Lancet 2019"},
+  {n:"DeLLphi-301",d:"Tarlatamab-dlle 治療 SCLC 後線（Cat.1）",r:"NEJM 2023"},
+  {n:"IMforte",d:"Lurbinectedin ＋ Atezolizumab 維持 ES-SCLC",r:"ASCO 2024"},
+  {n:"INT 0096",d:"同步 cCRT 45Gy BID vs 序貫（局限期 SCLC）",r:"NEJM 1992"},
+  {n:"CONVERT",d:"66Gy QD vs 45Gy BID（局限期 SCLC）",r:"Lancet Oncol 2017"},
+];
+
+/* ════════════════════════════════════════
+   §6  UTILITIES
+════════════════════════════════════════ */
+function nsclcTxKey({ns,res,ecog,driver,pdl1}){
+  if(ns==="I")return"nsclc-I";
+  if(ns==="II")return"nsclc-II";
+  if(ns==="IIIA")return res==="yes"?"nsclc-IIIA-res":"nsclc-III-unres";
+  if(ns==="IIIB-C")return"nsclc-III-unres";
+  if(ns==="IV"){
+    if(ecog==="3-4")return"nsclc-IV-ps-poor";
+    if(driver==="yes")return"nsclc-IV-driver";
+    if(pdl1===">=50")return"nsclc-IV-nd-high";
+    if(pdl1==="1-49")return"nsclc-IV-nd-mid";
+    if(pdl1==="<1")return"nsclc-IV-nd-low";
+  }
+  return null;
+}
+function nsclcStageMeaning(stage){
+  const m={IA1:"早期 — 評估手術切除",IA2:"早期 — 評估手術切除",IA3:"早期 — 評估手術切除",IB:"早期 — 手術 ± 輔助治療",IIA:"早期 — 手術 ± 輔助治療",IIB:"早期 — 手術 ＋ 輔助治療",IIIA:"局部晚期 — MDT 評估可切除性",IIIB:"局部晚期不可切除 — cCRT ＋ Durvalumab",IIIC:"局部晚期不可切除 — cCRT ＋ Durvalumab",IVA:"轉移性 — 全身治療（M1b 評估局部消融）",IVB:"轉移性 — 全身治療（多處轉移）"};
+  return m[stage]||"";
+}
+function nsclcSG(stage){if(!stage)return null;if(["IA1","IA2","IA3","IB"].includes(stage))return"I";if(["IIA","IIB"].includes(stage))return"II";if(stage==="IIIA")return"IIIA";if(stage==="IIIB"||stage==="IIIC")return"IIIB-C";if(stage==="IVA"||stage==="IVB")return"IV";return null;}
+function txKeyFromStage(stage,type){if(type==="sclc")return null;if(!stage)return null;if(["IA1","IA2","IA3","IB"].includes(stage))return"nsclc-I";if(["IIA","IIB"].includes(stage))return"nsclc-II";if(stage==="IIIA")return"nsclc-IIIA-res";if(stage==="IIIB"||stage==="IIIC")return"nsclc-III-unres";return"nsclc-IV-nd-high";}
+
+/* ════════════════════════════════════════
+   §7  ATOM COMPONENTS
+════════════════════════════════════════ */
+
+function Pill({ch,color="gray",sm}){
+  const col=COL[color]||COL.gray;
+  return<span className="pill" style={{background:col.pill,color:col.pillT,fontSize:sm?11:12}}>{ch}</span>;
+}
+
+function SrcBadge({src,color="badge-nccn"}){
+  return<span className={`badge-src ${color}`}>{src}</span>;
+}
+
+function SecHead({ch,color="blue",icon}){
+  const colMap={blue:"#2563eb",emerald:"#059669",amber:"#d97706",orange:"#ea580c",sky:"#0ea5e9",gray:"#64748b"};
+  const c=colMap[color]||colMap.blue;
+  return<div className="sec-head"><div className="sec-head-bar" style={{background:c}}/><span className="sec-head-text" style={{color:c}}>{icon&&icon+" "}{ch}</span></div>;
+}
+
+function SelBtn({code,title,desc,active,onClick,ac="sky",style:st}){
+  const col=COL[ac]||COL.sky;
+  return<button className={"sel-btn"+(active?" active":"")} onClick={onClick} style={{borderColor:active?col.border:undefined,...(st||{})}}>
+    {code&&<span className="sel-btn-code">{code}</span>}
+    <div className="sel-btn-text">
+      <div className="sel-btn-title">{title}</div>
+      {desc&&<div className="sel-btn-desc">{desc}</div>}
+    </div>
+    {active&&<span className="sel-btn-check">✓</span>}
+  </button>;
+}
+
+function TypeBtn({icon,title,sub,color,active,onClick}){
+  const col=COL[color]||COL.sky;
+  return<button className="type-btn" onClick={onClick} style={{borderColor:active?col.border:"",background:active?col.bg:""}}>
+    <div className="type-btn-ico">{icon}</div>
+    <div className="type-btn-title" style={{color:active?col.text:""}}>{title}</div>
+    <div className="type-btn-sub">{sub}</div>
+    {active&&<div style={{marginTop:6}}><Pill ch="選定" color={color} sm/></div>}
+  </button>;
+}
+
+function TypeRow({m,children}){return<div className={"type-row"+(m?" col":"")}>{children}</div>;}
+
+function StepBar({labels,cur}){
+  return<div className="stepbar">
+    {labels.map((s,i)=><React.Fragment key={i}>
+      <div className="sb-item">
+        <div className="sb-circle" style={{background:i<cur?"#059669":i===cur?"#1e40af":"#e2e8f0",color:i<=cur?"#fff":"#94a3b8"}}>
+          {i<cur?"✓":i+1}
+        </div>
+        <span className="sb-label" style={{color:i===cur?"#1e40af":i<cur?"#059669":"#94a3b8"}}>{s}</span>
+      </div>
+      {i<labels.length-1&&<div className="sb-line" style={{background:i<cur?"#059669":"#e2e8f0"}}/>}
+    </React.Fragment>)}
+  </div>;
+}
+
+function TxRow({d,trial,cat,n}){
+  const catCol=cat==="Cat.1"?"badge-cat1":"badge-cat2";
+  return<div className="tx-row">
+    <div className="tx-row-top">
+      <span className="tx-row-drug">{d}</span>
+      <div className="tx-row-badges">
+        {trial&&<span className="badge-src badge-trial">{trial}</span>}
+        {cat&&<span className={`badge-src ${catCol}`}>{cat}</span>}
+      </div>
+    </div>
+    {n&&<div className="tx-row-note">→ {n}</div>}
+  </div>;
+}
+
+function XBtn({label,color="sky",onClick}){
+  const col=COL[color]||COL.sky;
+  return<button className="xlink-btn" onClick={onClick}
+    style={{background:col.bg,color:col.text,border:`1.5px solid ${col.border}`}}>
+    {label} <span style={{marginLeft:2,opacity:.7}}>→</span>
+  </button>;
+}
+
+function TxCard({data,nav}){
+  if(!data)return null;
+  const bm=data.bm||[];
+  return<div className="card">
+    <div className="card-head" style={{background:"#f8fafc"}}>
+      <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",gap:8,flexWrap:"wrap"}}>
+        <div>
+          <div className="card-title">{data.title}</div>
+          <div className="card-sub">{data.sub}</div>
+        </div>
+        <SrcBadge src={data.src||VI.nsclc}/>
+      </div>
+    </div>
+    <div className="card-body">
+      <SecHead ch="優先推薦 Preferred" color="emerald" icon="⭐"/>
+      {data.pref.map((r,i)=><TxRow key={i} d={r.d} trial={r.trial} cat={r.cat} n={r.n}/>)}
+      {data.adj&&data.adj.length>0&&<><SecHead ch="輔助治療 Adjuvant" color="sky" icon="＋"/>{data.adj.map((r,i)=><TxRow key={i} d={r.d} trial={r.trial} cat={r.cat} n={r.n}/>)}</>}
+      {data.other&&data.other.length>0&&<><SecHead ch="其他推薦" color="blue" icon="✔"/>{data.other.map((r,i)=><TxRow key={i} d={r.d} trial={r.trial} cat={r.cat} n={r.n}/>)}</>}
+      {data.notes&&data.notes.length>0&&<>
+        <SecHead ch="臨床備註" color="amber" icon="📋"/>
+        {data.notes.map((nt,i)=><div key={i} style={{display:"flex",gap:8,marginBottom:6,alignItems:"flex-start"}}>
+          <span style={{color:"#d97706",fontSize:13,marginTop:1,flexShrink:0}}>•</span>
+          <span style={{fontSize:13,color:"#374151",lineHeight:1.55,wordBreak:"break-word"}}>{nt}</span>
+        </div>)}
+      </>}
+      {bm.length>0&&nav&&<>
+        <div className="div"/>
+        <div style={{fontSize:11,color:"#94a3b8",marginBottom:6,fontWeight:600}}>🔗 相關生物標記</div>
+        <div style={{display:"flex",flexWrap:"wrap",gap:4}}>
+          {bm.map(id=>{const b=BM.find(x=>x.id===id);if(!b)return null;return<XBtn key={id} label={"🧬 "+id} color={b.c} onClick={()=>nav.toBm(id)}/>;})}</div>
+      </>}
+    </div>
+  </div>;
+}
+
+function StageCard({T,N,M,type,nav}){
+  const stage=calcNS(T,N,M),sclc=type==="sclc"?calcSCLC(T,N,M):null;
+  const col=stageCols[stage]||"gray",colors=COL[col]||COL.gray;
+  const Nobj=N_DATA.find(o=>o.v===N),Mobj=M_DATA.find(o=>o.v===M);
+  const sg=nsclcSG(stage),tKey=sclc?sclc.txKey:txKeyFromStage(stage,type);
+  return<div className="stage-result" style={{borderColor:colors.border}}>
+    <div className="stage-result-head" style={{background:colors.bg}}>
+      <div className="stage-tnm-row">
+        <span className="stage-tnm-code" style={{color:colors.text}}>{T}·{N}·{M}</span>
+        <span className="stage-badge-large" style={{background:colors.pill,color:colors.pillT}}>
+          {type==="nsclc"?"Stage ":""}{stage||"—"}
+        </span>
+      </div>
+      <div style={{fontSize:11,color:colors.text,opacity:.7,marginTop:2,fontFamily:"var(--mono)"}}>{VI.tnm}</div>
+    </div>
+    <div className="stage-result-body">
+      {type==="nsclc"&&stage&&<div style={{fontSize:13.5,fontWeight:600,color:"#1e3a8a",marginBottom:8}}>🔬 {nsclcStageMeaning(stage)}</div>}
+      {sclc&&<div style={{marginBottom:8}}><Pill ch={sclc.label} color={sclc.c}/><div style={{fontSize:13,color:"var(--text2)",marginTop:4}}>{sclc.desc}</div></div>}
+      {N==="N2b"&&<div className="warn-box" style={{marginBottom:8}}>⚠️ <strong>N2b（多站 N2）：</strong>通常為不可切除，需 MDT 確認可切除性</div>}
+      {Nobj&&<div style={{fontSize:12,color:"var(--text2)",marginBottom:3,wordBreak:"break-word"}}><span style={{fontFamily:"var(--mono)",fontWeight:600}}>N：</span>{Nobj.v} — {Nobj.criteria}</div>}
+      {Mobj&&Mobj.v!=="M0"&&<div style={{fontSize:12,color:"var(--text2)",marginBottom:3,wordBreak:"break-word"}}><span style={{fontFamily:"var(--mono)",fontWeight:600}}>M：</span>{Mobj.v} — {Mobj.criteria}</div>}
+      {nav&&tKey&&<div style={{marginTop:10,paddingTop:10,borderTop:"1px dashed var(--border2)"}}>
+        <XBtn label={"前往治療："+(type==="sclc"?(sclc?.label||"SCLC"):"NSCLC Stage "+(sg||stage))} color={type==="nsclc"?"sky":"amber"}
+          onClick={()=>nav.toTx({ct:type,ns:sg,sc:sclc?.type})}/>
+      </div>}
+    </div>
+  </div>;
+}
+
+/* ════════════════════════════════════════
+   §8  TNM QUICK REFERENCE TABLE
+════════════════════════════════════════ */
+function TNMTable(){
+  const [activeTab,setActiveTab]=useState("T");
+  const tabs=["T","N","M","Stage"];
+  const stageGroups=[
+    {g:"IA1",t:"T1a",n:"N0",m:"M0"},{g:"IA2",t:"T1b",n:"N0",m:"M0"},{g:"IA3",t:"T1c",n:"N0",m:"M0"},
+    {g:"IB", t:"T2a",n:"N0",m:"M0"},{g:"IIA",t:"T2b",n:"N0",m:"M0"},
+    {g:"IIB",t:"T3/T1-2",n:"N0/N1",m:"M0",note:"T3N0 或 T1-2N1"},
+    {g:"IIIA",t:"T3-4/T1-3",n:"N1/N2",m:"M0",note:"T3-4N1 或 T1-3N2"},
+    {g:"IIIB",t:"T3-4/T1-4",n:"N2/N3",m:"M0",note:"T3-4N2 或 T1-4N3"},
+    {g:"IIIC",t:"T3-4",n:"N3",m:"M0",note:"T3-4N3"},
+    {g:"IVA",t:"Any T",n:"Any N",m:"M1a/M1b",note:""},
+    {g:"IVB",t:"Any T",n:"Any N",m:"M1c",note:""},
+  ];
+  const colForStage=g=>{const c=stageCols[g]||"gray";return COL[c]||COL.gray;};
+  return<div>
+    <div className="tab-toggle">
+      {tabs.map(t=><button key={t} className={"tab-toggle-btn"+(activeTab===t?" active":"")} onClick={()=>setActiveTab(t)}>{t}</button>)}
+    </div>
+    {activeTab==="T"&&<div className="tnm-table-wrap">
+      <table className="tnm-table">
+        <thead><tr><th>分類</th><th>大小</th><th>定義 / 侵犯條件</th></tr></thead>
+        <tbody>{T_DATA.map(r=><tr key={r.v}>
+          <td className="tnm-code-cell">{r.v}</td>
+          <td style={{fontFamily:"var(--mono)",fontSize:12,whiteSpace:"nowrap"}}>{r.size}</td>
+          <td><div style={{fontWeight:500,marginBottom:2}}>{r.criteria}</div>
+            <div style={{fontSize:11.5,color:"var(--text2)",whiteSpace:"pre-line"}}>{r.detail}</div>
+            {r.note&&<div style={{fontSize:11,color:"#ca8a04",marginTop:3}}>💡 {r.note}</div>}
+          </td>
+        </tr>)}</tbody>
+      </table>
+    </div>}
+    {activeTab==="N"&&<div className="tnm-table-wrap">
+      <table className="tnm-table">
+        <thead><tr><th>分類</th><th>IASLC 9th 亞分類</th><th>定義</th></tr></thead>
+        <tbody>{N_DATA.map(r=><tr key={r.v}>
+          <td className="tnm-code-cell">{r.v}</td>
+          <td style={{whiteSpace:"nowrap"}}><Pill ch={r.g} color={r.g==="N0"?"emerald":r.g==="N1"?"sky":r.g==="N2"?"amber":"red"} sm/></td>
+          <td><div style={{fontWeight:500,marginBottom:2}}>{r.criteria}</div>
+            {r.detail&&<div style={{fontSize:11.5,color:"var(--text2)"}}>{r.detail}</div>}
+            {r.note&&<div style={{fontSize:11,color:"#ca8a04",marginTop:3}}>{r.note}</div>}
+          </td>
+        </tr>)}</tbody>
+      </table>
+    </div>}
+    {activeTab==="M"&&<div className="tnm-table-wrap">
+      <table className="tnm-table">
+        <thead><tr><th>分類</th><th>定義</th></tr></thead>
+        <tbody>{M_DATA.map(r=><tr key={r.v}>
+          <td className="tnm-code-cell">{r.v}</td>
+          <td><div style={{fontWeight:500,marginBottom:2}}>{r.criteria}</div>
+            {r.detail&&<div style={{fontSize:11.5,color:"var(--text2)",whiteSpace:"pre-line"}}>{r.detail}</div>}
+            {r.note&&<div style={{fontSize:11,marginTop:3,color:r.note.startsWith("💡")?"#ca8a04":"#059669"}}>{r.note}</div>}
+          </td>
+        </tr>)}</tbody>
+      </table>
+    </div>}
+    {activeTab==="Stage"&&<div className="tnm-table-wrap">
+      <table className="tnm-table">
+        <thead><tr><th>Stage</th><th>T</th><th>N</th><th>M</th><th>備註</th></tr></thead>
+        <tbody>{stageGroups.map(r=>{const c=colForStage(r.g);return<tr key={r.g}>
+          <td><span style={{fontFamily:"var(--mono)",fontWeight:700,fontSize:13,color:c.text,background:c.bg,padding:"2px 8px",borderRadius:6}}>{r.g}</span></td>
+          <td style={{fontFamily:"var(--mono)",fontSize:12}}>{r.t}</td>
+          <td style={{fontFamily:"var(--mono)",fontSize:12}}>{r.n}</td>
+          <td style={{fontFamily:"var(--mono)",fontSize:12}}>{r.m}</td>
+          <td style={{fontSize:11.5,color:"var(--text2)"}}>{r.note}</td>
+        </tr>;})}
+        </tbody>
+      </table>
+    </div>}
+  </div>;
+}
+
+/* ════════════════════════════════════════
+   §9  MODULES
+════════════════════════════════════════ */
+
+/* ─── STAGING MODULE ─── */
+function StagingMod({nav,m}){
+  const init={ph:"type",tt:null,ct:null,T:null,N:null,M:null};
+  const [s,setS]=useState(init),[h,setH]=useState([]);
+  const [mode,setMode]=useState("calc"); // "calc" | "ref"
+  const go=u=>{setH(x=>[...x,s]);setS(p=>({...p,...u}));};
+  const back=()=>{if(!h.length)return;setS(h[h.length-1]);setH(x=>x.slice(0,-1));};
+  const reset=()=>{setS(init);setH([]);};
+  const P=s.ph;
+  return<div className="page-pad">
+    <div style={{display:"flex",alignItems:"flex-start",justifyContent:"space-between",marginBottom:14,gap:8}}>
+      <div>
+        <div className="page-title">🏷 TNM 分期</div>
+        <div className="page-sub">{VI.tnm}</div>
+      </div>
+      <div className="tab-toggle" style={{marginBottom:0,minWidth:130}}>
+        <button className={"tab-toggle-btn"+(mode==="calc"?" active":"")} onClick={()=>setMode("calc")}>計算器</button>
+        <button className={"tab-toggle-btn"+(mode==="ref"?" active":"")} onClick={()=>setMode("ref")}>速查表</button>
+      </div>
+    </div>
+
+    {mode==="ref"&&<TNMTable/>}
+
+    {mode==="calc"&&<>
+    {P!=="type"&&<div style={{display:"flex",alignItems:"center",gap:8,marginBottom:12}}>
+      {h.length>0&&<button className="btn-outline" style={{width:"auto",padding:"8px 12px"}} onClick={back}>← 返回</button>}
+      {P!=="type"&&<button className="btn-outline" style={{width:"auto",padding:"8px 12px"}} onClick={reset}>↺ 重設</button>}
+    </div>}
+
+    {P==="type"&&<>
+      <div style={{fontSize:14,fontWeight:600,color:"var(--text)",marginBottom:10}}>選擇癌症類型</div>
+      <TypeRow m={m}>
+        <TypeBtn icon="🫁" title="NSCLC" sub="非小細胞肺癌" color="sky" active={false} onClick={()=>go({ph:"tt",ct:"nsclc"})}/>
+        <TypeBtn icon="🔵" title="SCLC" sub="小細胞肺癌" color="amber" active={false} onClick={()=>go({ph:"tt",ct:"sclc"})}/>
+      </TypeRow>
+      <div className="info-box">分期依據 <strong>{VI.tnm}</strong>。支援 cTNM / pTNM / yTNM；N2 亞分類（N2a1 / N2a2 / N2b）；M1c1 / M1c2 細分。</div>
+    </>}
+
+    {P==="tt"&&<>
+      <div style={{display:"flex",gap:6,alignItems:"center",marginBottom:10,flexWrap:"wrap"}}>
+        <Pill ch={s.ct?.toUpperCase()} color={s.ct==="nsclc"?"sky":"amber"}/><span style={{fontSize:14,fontWeight:600}}>選擇分期類型</span>
+      </div>
+      {TNM_TYPES.map(t=><SelBtn key={t.v} code={t.v} title={t.v} desc={t.desc} active={s.tt===t.v} onClick={()=>go({ph:"T",tt:t.v})} ac={s.ct==="nsclc"?"sky":"amber"}/>)}
+    </>}
+
+    {P==="T"&&<>
+      <StepBar labels={["T","N","M","結果"]} cur={0}/>
+      <div style={{display:"flex",gap:6,alignItems:"center",marginBottom:10,flexWrap:"wrap"}}>
+        <Pill ch={s.ct?.toUpperCase()} color={s.ct==="nsclc"?"sky":"amber"}/><Pill ch={s.tt} color="gray" sm/>
+        <span style={{fontSize:14,fontWeight:600}}>T — 原發腫瘤</span>
+      </div>
+      {T_DATA.map(o=><SelBtn key={o.v} code={o.v} title={o.size} desc={o.criteria} active={s.T===o.v} onClick={()=>go({ph:"N",T:o.v})} ac={s.ct==="nsclc"?"sky":"amber"}/>)}
+    </>}
+
+    {P==="N"&&<>
+      <StepBar labels={["T","N","M","結果"]} cur={1}/>
+      <div style={{display:"flex",gap:6,alignItems:"center",marginBottom:10,flexWrap:"wrap"}}>
+        <Pill ch={s.T} color={s.ct==="nsclc"?"sky":"amber"}/><span style={{fontSize:14,fontWeight:600}}>N — 區域淋巴結</span>
+      </div>
+      <div className="info-box" style={{marginBottom:10}}>ℹ️ <strong>IASLC 9th N2 亞分類：</strong>N2a1（skip，預後較佳）/ N2a2（含N1）/ N2b（多站，通常不可切除）</div>
+      {N_DATA.map(o=><SelBtn key={o.v} code={o.v} title={o.v} desc={o.criteria} active={s.N===o.v} onClick={()=>go({ph:"M",N:o.v})} ac={s.ct==="nsclc"?"sky":"amber"}/>)}
+    </>}
+
+    {P==="M"&&<>
+      <StepBar labels={["T","N","M","結果"]} cur={2}/>
+      <div style={{display:"flex",gap:6,alignItems:"center",marginBottom:10,flexWrap:"wrap"}}>
+        <Pill ch={s.T} color={s.ct==="nsclc"?"sky":"amber"}/><Pill ch={s.N} color={s.ct==="nsclc"?"sky":"amber"}/><span style={{fontSize:14,fontWeight:600}}>M — 遠處轉移</span>
+      </div>
+      {M_DATA.map(o=><SelBtn key={o.v} code={o.v} title={o.v} desc={o.criteria} active={s.M===o.v} onClick={()=>go({ph:"result",M:o.v})} ac={s.ct==="nsclc"?"sky":"amber"}/>)}
+    </>}
+
+    {P==="result"&&s.T&&s.N&&s.M&&<>
+      <StepBar labels={["T","N","M","結果"]} cur={3}/>
+      <div style={{display:"flex",gap:6,marginBottom:12,alignItems:"center",flexWrap:"wrap"}}>
+        <Pill ch={s.ct?.toUpperCase()} color={s.ct==="nsclc"?"sky":"amber"}/><Pill ch={s.tt} color="gray" sm/>
+        <span style={{fontSize:14,fontWeight:600}}>分期結果</span>
+      </div>
+      <StageCard T={s.T} N={s.N} M={s.M} type={s.ct} nav={nav}/>
+      <button className="btn-outline" style={{marginTop:10}} onClick={reset}>↺ 重新選擇</button>
+    </>}
+    </>}
+  </div>;
+}
+
+/* ─── TREATMENT MODULE ─── */
+const IW={ph:"type",ct:null,ns:null,sc:null,res:null,ecog:null,driver:null,pdl1:null};
+function TreatMod({preset,nav,onClear,m}){
+  const [w,setW]=useState(IW),[wh,setWh]=useState([]);
+  useEffect(()=>{
+    if(!preset)return;const{ct,ns,sc}=preset;if(!ct)return;
+    let nw={...IW,ct};
+    if(sc){nw={...nw,sc,ph:"result"};}
+    else if(ns){if(["I","II","IIIB-C"].includes(ns)){nw={...nw,ns,ph:"result"};}else{nw={...nw,ns,ph:ns==="IIIA"?"resectable":"ecog"};}}
+    setW(nw);setWh([IW]);if(onClear)onClear();
+  },[preset]);
+  const go=u=>{setWh(h=>[...h,w]);setW(x=>({...x,...u}));};
+  const back=()=>{if(!wh.length)return;setW(wh[wh.length-1]);setWh(h=>h.slice(0,-1));};
+  const reset=()=>{setW(IW);setWh([]);};
+  const tKey=(()=>{if(w.ph!=="result")return null;if(w.ct==="sclc")return"sclc-"+w.sc;return nsclcTxKey({ns:w.ns,res:w.res,ecog:w.ecog,driver:w.driver,pdl1:w.pdl1});})();
+  const wl=(()=>{if(!w.ct)return["癌種"];if(w.ct==="sclc")return["癌種","分期","結果"];const st=["癌種","分期"];if(w.ns==="IIIA"){st.push("切除性");st.push("結果");}else if(w.ns==="IV"){st.push("ECOG");if(w.ecog&&w.ecog!=="3-4"){st.push("Driver");if(w.driver==="no")st.push("PD-L1");}st.push("結果");}else st.push("結果");return st;})();
+  return<div className="page-pad">
+    <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:14}}>
+      <div style={{flex:1}}><div className="page-title">💊 治療決策</div><div className="page-sub">{w.ct==="sclc"?VI.sclc:VI.nsclc}</div></div>
+      {w.ph!=="type"&&<button className="btn-outline" style={{width:"auto",padding:"8px 12px"}} onClick={reset}>↺</button>}
+    </div>
+    {w.ph!=="type"&&<StepBar labels={wl} cur={Math.max(0,wl.length-(tKey?1:2))}/>}
+    {wh.length>0&&<button className="btn-outline" style={{marginBottom:10}} onClick={back}>← 返回上一步</button>}
+
+    {w.ph==="type"&&<TypeRow m={m}>
+      <TypeBtn icon="🫁" title="NSCLC" sub="非小細胞肺癌" color="sky" active={false} onClick={()=>go({ph:"nsclcStage",ct:"nsclc"})}/>
+      <TypeBtn icon="🔵" title="SCLC" sub="小細胞肺癌" color="amber" active={false} onClick={()=>go({ph:"sclcStage",ct:"sclc"})}/>
+    </TypeRow>}
+
+    {w.ph==="nsclcStage"&&<>
+      <div style={{display:"flex",gap:6,alignItems:"center",marginBottom:10,flexWrap:"wrap"}}><Pill ch="NSCLC" color="sky"/><span style={{fontSize:14,fontWeight:600}}>選擇分期</span></div>
+      {[{v:"I",t:"Stage I",d:"T1-2 N0 M0 — 早期"},{v:"II",t:"Stage II",d:"T3N0 / T1-2N1 — 早期"},{v:"IIIA",t:"Stage IIIA",d:"T3-4N1 / T1-3N2 — 局部晚期"},{v:"IIIB-C",t:"Stage IIIB/C",d:"T3-4N3 — 局部晚期（通常不可切除）"},{v:"IV",t:"Stage IV",d:"M1 — 轉移性"}].map(s=><SelBtn key={s.v} title={s.t} desc={s.d} active={w.ns===s.v} ac="sky" onClick={()=>{if(["I","II","IIIB-C"].includes(s.v))go({ph:"result",ns:s.v});else go({ph:s.v==="IIIA"?"resectable":"ecog",ns:s.v});}}/>)}
+    </>}
+    {w.ph==="sclcStage"&&<>
+      <div style={{display:"flex",gap:6,alignItems:"center",marginBottom:10,flexWrap:"wrap"}}><Pill ch="SCLC" color="amber"/><span style={{fontSize:14,fontWeight:600}}>選擇分期</span></div>
+      {[{v:"ls1",t:"局限期 Stage I–IIA",d:"T1-2 N0 M0 — 評估手術"},{v:"ls2",t:"局限期 Stage IIB–IIIC",d:"N+ 或 T3-4 — 同步 cCRT"},{v:"es",t:"廣泛期 (ES-SCLC)",d:"任何 M1 — 全身治療"}].map(s=><SelBtn key={s.v} title={s.t} desc={s.d} active={w.sc===s.v} onClick={()=>go({ph:"result",sc:s.v})} ac="amber"/>)}
+    </>}
+    {w.ph==="resectable"&&<>
+      <div style={{marginBottom:12}}><Pill ch="NSCLC Stage IIIA" color="sky"/><div style={{fontSize:14,fontWeight:600,marginTop:10}}>可切除性評估（MDT 討論）</div></div>
+      <SelBtn title="✅ 可切除 Resectable" desc="MDT 評估可達 R0 切除（含降期後手術）" active={w.res==="yes"} onClick={()=>go({ph:"result",res:"yes"})} ac="emerald"/>
+      <SelBtn title="❌ 不可切除 Unresectable" desc="侵犯大血管/心臟/氣管；N3；或 MDT 評估無法 R0" active={w.res==="no"} onClick={()=>go({ph:"result",res:"no"})} ac="red"/>
+    </>}
+    {w.ph==="ecog"&&<>
+      <div style={{marginBottom:12}}><Pill ch="NSCLC Stage IV" color="sky"/><div style={{fontSize:14,fontWeight:600,marginTop:10}}>體能狀態 ECOG PS</div></div>
+      <SelBtn title="ECOG 0–1" desc="良好 — 可耐受標準化療/ICI 全劑量" active={w.ecog==="0-1"} onClick={()=>go({ph:"driver",ecog:"0-1"})} ac="emerald"/>
+      <SelBtn title="ECOG 2" desc="中等 — 建議 Carboplatin-based；單藥考量" active={w.ecog==="2"} onClick={()=>go({ph:"driver",ecog:"2"})} ac="amber"/>
+      <SelBtn title="ECOG 3–4" desc="差 — BSC 為主；若有 Driver TKI 仍可考慮" active={w.ecog==="3-4"} onClick={()=>go({ph:"result",ecog:"3-4"})} ac="red"/>
+    </>}
+    {w.ph==="driver"&&<>
+      <div style={{marginBottom:12}}>
+        <div style={{display:"flex",gap:6,flexWrap:"wrap",alignItems:"center",marginBottom:8}}><Pill ch="NSCLC IV" color="sky"/><Pill ch={"ECOG "+w.ecog} color={w.ecog==="2"?"amber":"emerald"} sm/></div>
+        <div style={{fontSize:14,fontWeight:600}}>Targetable Driver Mutation？</div>
+        <div style={{fontSize:12,color:"var(--text2)",marginTop:3}}>EGFR / ALK / ROS1 / BRAF / KRAS G12C / MET ex14 / RET / NTRK / HER2</div>
+      </div>
+      <SelBtn title="✅ 有 Driver Mutation" desc="任一 targetable 突變確認陽性" active={w.driver==="yes"} onClick={()=>go({ph:"result",driver:"yes"})} ac="emerald"/>
+      <SelBtn title="❌ 無 Driver Mutation（或尚未檢測）" desc="依 PD-L1 TPS 決策" active={w.driver==="no"} onClick={()=>go({ph:"pdl1",driver:"no"})} ac="sky"/>
+    </>}
+    {w.ph==="pdl1"&&<>
+      <div style={{marginBottom:12}}>
+        <div style={{display:"flex",gap:6,flexWrap:"wrap",alignItems:"center",marginBottom:8}}><Pill ch="NSCLC IV" color="sky"/><Pill ch="無 Driver" color="gray" sm/></div>
+        <div style={{fontSize:14,fontWeight:600}}>PD-L1 TPS（22C3 抗體）</div>
+      </div>
+      <SelBtn code="≥50%" title="TPS ≥50% — 高表現" desc="ICI 單藥（Pembrolizumab）為 Cat.1 選項" active={w.pdl1===">=50"} onClick={()=>go({ph:"result",pdl1:">=50"})} ac="emerald"/>
+      <SelBtn code="1–49%" title="TPS 1–49% — 中等" desc="ICI 單藥不建議；需與化療併用" active={w.pdl1==="1-49"} onClick={()=>go({ph:"result",pdl1:"1-49"})} ac="amber"/>
+      <SelBtn code="<1%" title="TPS <1% — 陰性" desc="ICI 單藥無效（Cat.3）；化療+ICI 仍有效" active={w.pdl1==="<1"} onClick={()=>go({ph:"result",pdl1:"<1"})} ac="orange"/>
+      <SelBtn title="未知 / 尚未檢測" desc="建議儘速送檢；暫以化療+ICI 方向" active={w.pdl1==="unknown"} onClick={()=>go({ph:"result",pdl1:"unknown"})} ac="gray"/>
+    </>}
+    {w.ph==="result"&&<>
+      {tKey?<TxCard data={TX[tKey]||null} nav={nav}/>:<div className="warn-box">⚠️ 請先完成 PD-L1 檢測後重新確認治療方案。</div>}
+      <button className="btn-outline" style={{marginTop:10}} onClick={reset}>↺ 重新選擇</button>
+    </>}
+  </div>;
+}
+
+/* ─── BIOMARKER MODULE ─── */
+function BMMod({presetId,nav,onClear}){
+  const [sel,setSel]=useState(null);
+  useEffect(()=>{if(presetId){setSel(presetId);if(onClear)onClear();};},[presetId]);
+  const b=BM.find(x=>x.id===sel);
+  return<div className="page-pad">
+    <div style={{display:"flex",alignItems:"center",gap:8,marginBottom:14}}>
+      {sel&&<button className="btn-outline" style={{width:"auto",padding:"8px 12px"}} onClick={()=>setSel(null)}>← 返回</button>}
+      <div><div className="page-title">🧬 生物標記</div><div className="page-sub">NSCLC · {VI.nsclc}</div></div>
+    </div>
+    {!sel&&<div className="bm-grid">
+      {BM.map(x=>{const col=COL[x.c]||COL.gray;return<button key={x.id} className="bm-card" onClick={()=>setSel(x.id)} style={{borderColor:col.border,background:col.bg}}>
+        <div className="bm-card-title" style={{color:col.text}}>{x.l}</div>
+        <div className="bm-card-sub" style={{color:col.text}}>{x.sub}</div>
+        <div className="bm-freq" style={{background:col.pill,color:col.pillT}}>{x.freq}</div>
+      </button>;})}
+    </div>}
+    {sel&&b&&<div>
+      <div className="card" style={{marginBottom:10}}>
+        <div className="card-head" style={{background:COL[b.c]?.bg,borderBottom:`1px solid ${COL[b.c]?.border}`}}>
+          <div style={{display:"flex",gap:8,alignItems:"flex-start",justifyContent:"space-between",flexWrap:"wrap"}}>
+            <div><div style={{fontSize:18,fontWeight:800,color:COL[b.c]?.text}}>{b.l}</div><div style={{fontSize:12,color:COL[b.c]?.text,opacity:.75,marginTop:2}}>{b.sub}</div></div>
+            <div style={{textAlign:"right",flexShrink:0}}><Pill ch={b.freq} color={b.c}/><div style={{fontSize:11,color:COL[b.c]?.text,opacity:.7,marginTop:4,fontFamily:"var(--mono)"}}>🧪 {b.test}</div></div>
+          </div>
+          {b.mut.length>0&&<div style={{marginTop:8,display:"flex",gap:4,flexWrap:"wrap"}}>
+            {b.mut.map((m2,i)=><span key={i} style={{fontSize:11,background:"rgba(255,255,255,.6)",color:COL[b.c]?.text,padding:"2px 8px",borderRadius:20,border:`1px solid ${COL[b.c]?.border}`}}>{m2}</span>)}
+          </div>}
+        </div>
+        <div className="card-body">
+          <SecHead ch="一線優先治療" color="emerald" icon="⭐"/>
+          {b.first.map((r,i)=><TxRow key={i} d={r.d} trial={r.trial} cat={r.cat} n={r.n}/>)}
+          {b.other.length>0&&<><SecHead ch="其他推薦 / 後線" color="blue" icon="✔"/>{b.other.map((r,i)=><TxRow key={i} d={r.d} trial={r.trial} cat={r.cat} n={r.n}/>)}</>}
+        </div>
+      </div>
+      <div className="card" style={{marginBottom:10}}>
+        <div className="card-body">
+          <SecHead ch="CNS 穿透 / 腦轉移" color="sky" icon="🧠"/>
+          <div style={{fontSize:13,color:"var(--text)",lineHeight:1.6}}>{b.cns}</div>
+          <SecHead ch="抗藥性備註" color="orange" icon="🔄"/>
+          {b.res.map((r,i)=><div key={i} style={{display:"flex",gap:8,marginBottom:6,alignItems:"flex-start"}}>
+            <span style={{color:"var(--orange)",fontSize:13,marginTop:1,flexShrink:0}}>•</span>
+            <span style={{fontSize:13,color:"var(--text)",lineHeight:1.55,wordBreak:"break-word"}}>{r}</span>
+          </div>)}
+        </div>
+      </div>
+      {nav&&b.txLink&&<XBtn label={"前往治療："+(TX[b.txLink]?.title||b.txLink)} color="sky" onClick={()=>nav.toTx({ct:"nsclc",ns:b.txLink.includes("IV")?"IV":"I"})}/>}
+    </div>}
+  </div>;
+}
+
+/* ─── SPECIAL MODULE ─── */
+function SpecialMod({nav}){
+  const [exp,setExp]=useState(null);
+  return<div className="page-pad">
+    <div className="page-title" style={{marginBottom:4}}>⚡ 特殊臨床情境</div>
+    <div className="page-sub" style={{marginBottom:14}}>NCCN 2026 · 情境化決策</div>
+    {SC.map(sc=>{const open=exp===sc.id;return<div key={sc.id} className="accordion">
+      <button className="accordion-head" onClick={()=>setExp(open?null:sc.id)}>
+        <span className="accordion-ico">{sc.i}</span>
+        <div style={{flex:1,minWidth:0}}>
+          <div className="accordion-title">{sc.t}</div>
+          <div className="accordion-sub">{sc.s}</div>
+        </div>
+        <span className="accordion-arrow">{open?"▲":"▼"}</span>
+      </button>
+      {open&&<div className="accordion-body">
+        <div style={{paddingTop:10}}>
+          {sc.body.map((b,i)=><div key={i} style={{display:"flex",gap:8,marginBottom:9,alignItems:"flex-start"}}>
+            <span className="step-num">{i+1}</span>
+            <span style={{fontSize:13.5,color:"var(--text)",lineHeight:1.6,wordBreak:"break-word"}}>{b}</span>
+          </div>)}
+        </div>
+        <div style={{marginTop:10,padding:"8px 12px",background:"var(--bg3)",borderRadius:8,fontSize:12,color:"var(--text2)"}}>
+          📚 {sc.ref}
+        </div>
+        {nav&&sc.txKey&&<div style={{marginTop:8}}>
+          <XBtn label={"前往治療："+(TX[sc.txKey]?.title||sc.txKey)} color="sky"
+            onClick={()=>{const isSC=sc.txKey.startsWith("sclc-");nav.toTx({ct:isSC?"sclc":"nsclc",sc:isSC?sc.txKey.replace("sclc-",""):null,ns:!isSC?(sc.txKey.includes("III")?"IIIA":sc.txKey.includes("IV")?"IV":null):null});}}/>
+        </div>}
+      </div>}
+    </div>;})}
+  </div>;
+}
+
+/* ─── REFERENCE MODULE ─── */
+function RefMod(){
+  return<div className="page-pad">
+    <div className="page-title" style={{marginBottom:4}}>📚 文獻來源</div>
+    <div className="page-sub" style={{marginBottom:14}}>指引版本 · 原文連結 · 關鍵試驗</div>
+
+    {/* NCCN 原文連結 */}
+    <div style={{marginBottom:12}}>
+      <div style={{fontSize:12,fontWeight:700,color:"var(--text2)",marginBottom:6,textTransform:"uppercase",letterSpacing:".04em"}}>📄 NCCN 原文 PDF</div>
+      <a href={VI.nsclcUrl} target="_blank" rel="noopener" className="link-card">
+        <span className="link-card-ico">🫁</span>
+        <div><div className="link-card-title">NSCLC Guidelines</div><div className="link-card-sub">{VI.nsclc} · {VI.nsclcDate}</div></div>
+        <span className="link-card-arrow">↗</span>
+      </a>
+      <a href={VI.sclcUrl} target="_blank" rel="noopener" className="link-card">
+        <span className="link-card-ico">🔵</span>
+        <div><div className="link-card-title">SCLC Guidelines</div><div className="link-card-sub">{VI.sclc} · {VI.sclcDate}</div></div>
+        <span className="link-card-arrow">↗</span>
+      </a>
+    </div>
+
+    {/* 版本資訊 */}
+    <div className="card" style={{marginBottom:12}}>
+      <div className="card-head"><div className="card-title">版本資訊</div></div>
+      <div className="card-body">
+        {[{l:"NCCN SCLC",v:VI.sclc+" ("+VI.sclcDate+")",c:"amber"},{l:"NCCN NSCLC",v:VI.nsclc+" ("+VI.nsclcDate+")",c:"sky"},{l:"TNM 分期",v:VI.tnm,c:"indigo"},{l:"App 版本",v:VI.app+" · "+VI.appDate,c:"gray"}].map((r,i)=><div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"9px 0",borderBottom:i<3?"1px solid var(--border)":"none",gap:8,flexWrap:"wrap"}}>
+          <span style={{fontSize:13.5,fontWeight:600}}>{r.l}</span><Pill ch={r.v} color={r.c} sm/>
+        </div>)}
+      </div>
+    </div>
+
+    {/* 關鍵試驗 */}
+    <div className="card" style={{marginBottom:12}}>
+      <div className="card-head"><div className="card-title">🔬 關鍵臨床試驗</div></div>
+      <div className="card-body">
+        {KT.map((t,i)=><div key={i} style={{paddingBottom:10,marginBottom:10,borderBottom:i<KT.length-1?"1px solid var(--border)":"none"}}>
+          <div style={{fontSize:13.5,fontWeight:700}}>{t.n}</div>
+          <div style={{fontSize:12.5,color:"var(--text)",marginTop:2}}>{t.d}</div>
+          <div style={{fontSize:11.5,color:"var(--text2)",marginTop:1,fontFamily:"var(--mono)"}}>{t.r}</div>
+        </div>)}
+      </div>
+    </div>
+
+    {/* Disclaimer */}
+    <div className="warn-box">
+      <strong>⚠️ 免責聲明</strong><br/>
+      本工具依據 NCCN Guidelines 整理，<strong>僅供醫療專業人員快速參考</strong>，不取代個別臨床判斷。
+      所有治療決策需結合個別患者臨床狀況、偏好，並以<strong>最新版指引及 MDT 討論</strong>為準。
+      肺癌治療更新迅速，請定期確認指引版本。
+    </div>
+  </div>;
+}
+
+/* ════════════════════════════════════════
+   §10  APP SHELL
+════════════════════════════════════════ */
+const TABS=[{id:"staging",ic:"🏷️",lb:"分期"},{id:"treatment",ic:"💊",lb:"治療"},{id:"biomarker",ic:"🧬",lb:"標記"},{id:"special",ic:"⚡",lb:"情境"},{id:"reference",ic:"📚",lb:"文獻"}];
+
+function App(){
+  const [tab,setTab]=useState("staging"),[preset,setPreset]=useState({});
+  const ww=useW(),m=ww<=430;
+
+  const nav={
+    toTx:p=>{setPreset(x=>({...x,treatment:p}));setTab("treatment");},
+    toBm:id=>{setPreset(x=>({...x,bmId:id}));setTab("biomarker");},
+    toStaging:()=>setTab("staging"),
+  };
+
+  // Hide splash after render
+  useEffect(()=>{const el=document.getElementById('splash');if(el){setTimeout(()=>el.classList.add('hidden'),400);}},[]);
+
+  return<div className="app-wrap">
+    {/* Header */}
+    <div className="app-header">
+      <div className="header-row1">
+        <div className="header-title">🫁 肺癌診治指引</div>
+        <span className="header-badge">NCCN 2026</span>
+      </div>
+      <div className="header-row2">Lung Cancer Decision Support · {VI.app} · {VI.appDate}</div>
+    </div>
+
+    {/* Content */}
+    <div className="app-content">
+      {tab==="staging"  &&<StagingMod  nav={nav} m={m}/>}
+      {tab==="treatment"&&<TreatMod    preset={preset.treatment} nav={nav} m={m} onClear={()=>setPreset(x=>({...x,treatment:undefined}))}/>}
+      {tab==="biomarker"&&<BMMod       presetId={preset.bmId} nav={nav} onClear={()=>setPreset(x=>({...x,bmId:undefined}))}/>}
+      {tab==="special"  &&<SpecialMod  nav={nav}/>}
+      {tab==="reference"&&<RefMod/>}
+    </div>
+
+    {/* Tab Bar */}
+    <div className="tab-bar">
+      {TABS.map(t=>{const on=tab===t.id;return<button key={t.id} onClick={()=>setTab(t.id)} className="tab-btn">
+        {on&&<div className="tab-indicator"/>}
+        <span className="tab-ico">{t.ic}</span>
+        <span className={"tab-lbl"+(on?" on":"")}>{t.lb}</span>
+      </button>;})}
+    </div>
+  </div>;
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>
