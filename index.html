@@ -278,21 +278,12 @@ a:hover{text-decoration:underline;}
 /* ═══ DIVIDER ═══ */
 .div{height:1px;background:var(--border);margin:14px 0;}
 
-/* ═══ LOADING FALLBACK ═══ */
-#app-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;
-             min-height:100vh;gap:12px;color:var(--text2);font-size:15px;}
-#app-loading .ld-ico{font-size:48px;}
 </style>
 </head>
 <body>
 
-<!-- Simple loading placeholder (React replaces this on mount) -->
-<div id="root">
-  <div id="app-loading">
-    <div class="ld-ico">🫁</div>
-    <div>載入中…</div>
-  </div>
-</div>
+<!-- React mounts here -->
+<div id="root"></div>
 
 <script>
 /* ── PWA Service Worker ── */
@@ -358,6 +349,14 @@ const TNM_TYPES=[
 ];
 
 const T_DATA=[
+  {v:"Tis",size:"原位癌",
+   criteria:"腺癌原位癌（AIS）或鱗狀細胞原位癌（SCIS）",
+   detail:"AIS：≤3 cm，純粹貼壁生長（pure lepidic），無侵犯；影像常呈純磨玻璃結節（pure GGO）\nSCIS：中央型原位鱗癌",
+   note:"💡 AIS 完整切除後 5 年存活率接近 100%；通常不含在一般 Stage 分組中"},
+  {v:"T1mi",size:"≤3 cm，侵犯 ≤5 mm",
+   criteria:"微侵犯腺癌（Minimally Invasive Adenocarcinoma, MIA）",
+   detail:"腫瘤 ≤3 cm，以貼壁生長（lepidic）為主，侵犯最深處 ≤5 mm（單一灶）\n不可有血管、淋巴管、胸膜或肺泡腔侵犯",
+   note:"💡 完整切除後 5 年 CSS 接近 100%；影像多呈部分實性結節（part-solid GGO）"},
   {v:"T1a",size:"≤1 cm",
    criteria:"腫瘤最大徑 ≤1 cm",
    detail:"局限於肺實質內，或侵犯臟層胸膜；支氣管鏡下未侵犯葉支氣管近端（即未達主支氣管）",
@@ -872,6 +871,8 @@ function TNMTable(){
   const [activeTab,setActiveTab]=useState("T");
   const tabs=["T","N","M","Stage"];
   const stageGroups=[
+    {g:"Tis",t:"Tis (AIS/SCIS)",n:"N0",m:"M0",note:"原位癌，不含於一般 Stage 分組；完整切除後存活率接近 100%",special:true},
+    {g:"T1mi",t:"T1mi (MIA)",n:"N0",m:"M0",note:"微侵犯腺癌，不含於一般 Stage 分組；完整切除後 5yr-CSS 接近 100%",special:true},
     {g:"IA1",t:"T1a",n:"N0",m:"M0"},{g:"IA2",t:"T1b",n:"N0",m:"M0"},{g:"IA3",t:"T1c",n:"N0",m:"M0"},
     {g:"IB", t:"T2a",n:"N0",m:"M0"},{g:"IIA",t:"T2b",n:"N0",m:"M0"},
     {g:"IIB",t:"T3/T1-2",n:"N0/N1",m:"M0",note:"T3N0 或 T1-2N1"},
@@ -927,13 +928,22 @@ function TNMTable(){
     {activeTab==="Stage"&&<div className="tnm-table-wrap">
       <table className="tnm-table">
         <thead><tr><th>Stage</th><th>T</th><th>N</th><th>M</th><th>備註</th></tr></thead>
-        <tbody>{stageGroups.map(r=>{const c=colForStage(r.g);return<tr key={r.g}>
-          <td><span style={{fontFamily:"var(--mono)",fontWeight:700,fontSize:15,color:c.text,background:c.bg,padding:"2px 8px",borderRadius:6}}>{r.g}</span></td>
-          <td style={{fontFamily:"var(--mono)",fontSize:12}}>{r.t}</td>
-          <td style={{fontFamily:"var(--mono)",fontSize:12}}>{r.n}</td>
-          <td style={{fontFamily:"var(--mono)",fontSize:12}}>{r.m}</td>
-          <td style={{fontSize:13.5,color:"var(--text2)"}}>{r.note}</td>
-        </tr>;})}
+        <tbody>{stageGroups.map(r=>{
+          const c=colForStage(r.g);
+          const isSpecial=r.special;
+          return<tr key={r.g} style={{background:isSpecial?"#f0fdf4":""}}>
+            <td>
+              {isSpecial
+                ? <span style={{fontFamily:"var(--mono)",fontWeight:700,fontSize:13,color:"#065f46",background:"#d1fae5",padding:"2px 8px",borderRadius:6}}>{r.t}</span>
+                : <span style={{fontFamily:"var(--mono)",fontWeight:700,fontSize:15,color:c.text,background:c.bg,padding:"2px 8px",borderRadius:6}}>{r.g}</span>
+              }
+            </td>
+            <td style={{fontFamily:"var(--mono)",fontSize:isSpecial?11:12}}>{isSpecial?"N0":r.t}</td>
+            <td style={{fontFamily:"var(--mono)",fontSize:isSpecial?11:12}}>{r.n}</td>
+            <td style={{fontFamily:"var(--mono)",fontSize:isSpecial?11:12}}>{r.m}</td>
+            <td style={{fontSize:13,color:isSpecial?"#059669":"var(--text2)"}}>{r.note}</td>
+          </tr>;
+        })}
         </tbody>
       </table>
     </div>}
