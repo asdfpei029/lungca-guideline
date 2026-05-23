@@ -42,277 +42,257 @@
 /* ═══ RESET ═══ */
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;min-width:0;}
 html,body{margin:0;padding:0;overflow-x:hidden;max-width:100vw;background:var(--bg);
-          font-family:var(--sans);color:var(--text);-webkit-font-smoothing:antialiased;}
+          font-family:var(--sans);color:var(--text);-webkit-font-smoothing:antialiased;
+          font-size:16px;line-height:1.6;}
 #root{width:100%;min-height:100vh;}
 button{font-family:var(--sans);border:none;cursor:pointer;outline:none;background:none;padding:0;}
 a{color:var(--blue);text-decoration:none;}
 a:hover{text-decoration:underline;}
 
 /* ═══ SCROLLBAR ═══ */
-::-webkit-scrollbar{width:4px;height:4px;}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:2px;}
+::-webkit-scrollbar{width:5px;height:5px;}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px;}
 
 /* ═══ APP SHELL ═══ */
-.app-wrap{width:100%;max-width:640px;margin:0 auto;min-height:100vh;background:var(--bg);}
-.page-pad{padding:16px 16px 24px;}
+.app-wrap{width:100%;max-width:660px;margin:0 auto;min-height:100vh;background:var(--bg);}
+.page-pad{padding:18px 18px 28px;}
 
 /* ═══ HEADER ═══ */
 .app-header{
   background:var(--blue-d);
-  padding:12px 16px 10px;
+  padding:14px 18px 12px;
   position:sticky;top:0;z-index:200;
+  box-shadow:0 2px 12px rgba(30,64,175,.25);
 }
 .header-row1{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
-.header-title{font-size:17px;font-weight:700;color:#fff;letter-spacing:-.3px;flex:1;min-width:0;}
-.header-badge{background:rgba(255,255,255,.15);color:#fff;font-size:11px;font-weight:600;
-              padding:3px 10px;border-radius:20px;white-space:nowrap;flex-shrink:0;
-              border:1px solid rgba(255,255,255,.25);}
-.header-row2{font-size:11px;color:rgba(255,255,255,.55);margin-top:2px;}
+.header-title{font-size:19px;font-weight:700;color:#fff;letter-spacing:-.3px;flex:1;min-width:0;}
+.header-badge{background:rgba(255,255,255,.18);color:#fff;font-size:13px;font-weight:700;
+              padding:4px 12px;border-radius:20px;white-space:nowrap;flex-shrink:0;
+              border:1px solid rgba(255,255,255,.3);}
+.header-row2{font-size:12px;color:rgba(255,255,255,.55);margin-top:3px;font-family:var(--mono);}
 @media(max-width:430px){
-  .header-title{font-size:15px;}
+  .header-title{font-size:17px;}
+  .header-badge{font-size:12px;}
   .header-row2{display:none;}
 }
 
 /* ═══ BOTTOM TAB BAR ═══ */
-.tab-bar{position:fixed;bottom:0;left:0;right:0;height:58px;
-         background:var(--bg2);border-top:1px solid var(--border);
-         display:flex;z-index:200;box-shadow:0 -2px 12px rgba(0,0,0,.06);}
+.tab-bar{position:fixed;bottom:0;left:0;right:0;height:66px;
+         background:var(--bg2);border-top:1.5px solid var(--border);
+         display:flex;z-index:200;box-shadow:0 -3px 16px rgba(0,0,0,.08);}
 .tab-btn{flex:1;display:flex;flex-direction:column;align-items:center;
-         justify-content:center;gap:2px;position:relative;padding:6px 4px;}
+         justify-content:center;gap:3px;position:relative;padding:6px 4px;}
 .tab-indicator{position:absolute;top:0;left:50%;transform:translateX(-50%);
-               width:24px;height:2.5px;border-radius:0 0 3px 3px;background:var(--blue);}
-.tab-ico{font-size:19px;line-height:1;}
-.tab-lbl{font-size:10.5px;font-weight:500;color:var(--text3);}
-.tab-lbl.on{color:var(--blue);font-weight:700;}
-.app-content{padding-bottom:66px;}
-@media(max-width:430px){.tab-ico{font-size:17px;}.tab-lbl{font-size:10px;}.tab-bar{height:54px;}.app-content{padding-bottom:62px;}}
+               width:32px;height:3px;border-radius:0 0 4px 4px;background:var(--blue);}
+.tab-ico{font-size:22px;line-height:1;}
+.tab-lbl{font-size:12px;font-weight:500;color:var(--text3);}
+.tab-lbl.on{color:var(--blue);font-weight:800;}
+.app-content{padding-bottom:74px;}
+@media(max-width:430px){
+  .tab-ico{font-size:20px;}.tab-lbl{font-size:11px;}.tab-bar{height:60px;}.app-content{padding-bottom:68px;}
+}
 
-/* ═══ SECTION HEADER ═══ */
-.page-title{font-size:17px;font-weight:700;color:var(--text);margin-bottom:2px;}
-.page-sub{font-size:12px;color:var(--text3);font-family:var(--mono);}
+/* ═══ PAGE TITLE ═══ */
+.page-title{font-size:20px;font-weight:800;color:var(--text);margin-bottom:3px;letter-spacing:-.2px;}
+.page-sub{font-size:13px;color:var(--text3);font-family:var(--mono);}
 
 /* ═══ STEP BAR ═══ */
-.stepbar{display:flex;align-items:center;gap:4px;overflow-x:auto;padding:4px 0 10px;
-         scrollbar-width:none;margin-bottom:12px;-webkit-overflow-scrolling:touch;}
+.stepbar{display:flex;align-items:center;gap:6px;overflow-x:auto;padding:6px 0 12px;
+         scrollbar-width:none;margin-bottom:14px;-webkit-overflow-scrolling:touch;}
 .stepbar::-webkit-scrollbar{display:none;}
-.sb-item{display:flex;flex-direction:column;align-items:center;gap:3px;flex-shrink:0;}
-.sb-circle{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;
-           justify-content:center;font-size:12px;font-weight:700;transition:all .2s;}
-.sb-label{font-size:10px;white-space:nowrap;font-weight:500;}
-.sb-line{height:2px;width:20px;flex-shrink:0;border-radius:1px;transition:background .2s;}
+.sb-item{display:flex;flex-direction:column;align-items:center;gap:4px;flex-shrink:0;}
+.sb-circle{width:34px;height:34px;border-radius:50%;display:flex;align-items:center;
+           justify-content:center;font-size:14px;font-weight:700;transition:all .2s;}
+.sb-label{font-size:12px;white-space:nowrap;font-weight:600;}
+.sb-line{height:2.5px;width:24px;flex-shrink:0;border-radius:2px;transition:background .2s;}
 
 /* ═══ CARDS ═══ */
 .card{background:var(--bg2);border-radius:var(--radius);border:1px solid var(--border);
       overflow:hidden;box-shadow:var(--shadow);}
-.card+.card,.card+.info-box,.info-box+.card{margin-top:10px;}
-.card-head{padding:14px 16px;border-bottom:1px solid var(--border);}
-.card-body{padding:14px 16px;}
-.card-title{font-size:15px;font-weight:700;color:var(--text);}
-.card-sub{font-size:12px;color:var(--text2);margin-top:2px;}
+.card+.card,.card+.info-box,.info-box+.card{margin-top:12px;}
+.card-head{padding:16px 18px;border-bottom:1px solid var(--border);}
+.card-body{padding:16px 18px;}
+.card-title{font-size:17px;font-weight:700;color:var(--text);line-height:1.3;}
+.card-sub{font-size:13.5px;color:var(--text2);margin-top:3px;}
 
 /* ═══ INFO BOX ═══ */
 .info-box{background:var(--blue-l);border:1px solid #bfdbfe;border-radius:var(--radius);
-          padding:12px 14px;font-size:13px;color:#1e3a8a;line-height:1.6;}
+          padding:14px 16px;font-size:14px;color:#1e3a8a;line-height:1.7;}
 .warn-box{background:var(--yellow-l);border:1px solid #fde68a;border-radius:var(--radius);
-          padding:10px 14px;font-size:12.5px;color:#713f12;line-height:1.6;}
-.nhi-box{background:var(--yellow-l);border-left:3px solid var(--yellow);border-radius:var(--radius-sm);
-         padding:10px 14px;font-size:12.5px;color:#713f12;line-height:1.6;margin-top:8px;}
+          padding:12px 16px;font-size:14px;color:#713f12;line-height:1.7;}
+.nhi-box{background:var(--yellow-l);border-left:4px solid var(--yellow);border-radius:var(--radius-sm);
+         padding:12px 16px;font-size:14px;color:#713f12;line-height:1.7;margin-top:10px;}
 
 /* ═══ BUTTONS ═══ */
 .btn-primary{
   display:flex;align-items:center;justify-content:center;gap:8px;
-  width:100%;padding:14px;border-radius:var(--radius);
-  background:var(--blue);color:#fff;font-size:14px;font-weight:700;
-  box-shadow:var(--shadow);transition:opacity .15s;
+  width:100%;padding:16px;border-radius:var(--radius);
+  background:var(--blue);color:#fff;font-size:16px;font-weight:700;
+  box-shadow:var(--shadow);transition:opacity .15s;letter-spacing:.01em;
 }
 .btn-primary:active{opacity:.85;}
 .btn-outline{
   display:flex;align-items:center;justify-content:center;gap:6px;
-  width:100%;padding:12px;border-radius:var(--radius);
-  background:var(--bg2);color:var(--text2);font-size:13px;font-weight:600;
-  border:1.5px solid var(--border2);transition:all .15s;
+  width:100%;padding:14px;border-radius:var(--radius);
+  background:var(--bg2);color:var(--text2);font-size:15px;font-weight:600;
+  border:2px solid var(--border2);transition:all .15s;
 }
 .btn-outline:hover{border-color:var(--blue);color:var(--blue);}
 
 /* ═══ SEL BTN ═══ */
 .sel-btn{
-  width:100%;display:flex;align-items:flex-start;gap:10px;
-  padding:13px 14px;border-radius:var(--radius);
+  width:100%;display:flex;align-items:flex-start;gap:12px;
+  padding:15px 16px;border-radius:var(--radius);
   border:2px solid var(--border);background:var(--bg2);
-  margin-bottom:8px;text-align:left;transition:all .15s;
+  margin-bottom:10px;text-align:left;transition:all .15s;
   box-shadow:var(--shadow);
 }
 .sel-btn.active{border-color:var(--blue);background:var(--blue-l);}
-.sel-btn-code{font-family:var(--mono);font-size:12px;font-weight:600;
-              padding:3px 8px;border-radius:6px;white-space:nowrap;
+.sel-btn-code{font-family:var(--mono);font-size:13px;font-weight:700;
+              padding:4px 10px;border-radius:7px;white-space:nowrap;
               flex-shrink:0;align-self:flex-start;margin-top:1px;
               background:#f1f5f9;color:var(--text2);}
 .sel-btn.active .sel-btn-code{background:#bfdbfe;color:var(--blue-d);}
 .sel-btn-text{flex:1;min-width:0;}
-.sel-btn-title{font-size:14px;font-weight:600;color:var(--text);line-height:1.3;word-break:break-word;}
+.sel-btn-title{font-size:16px;font-weight:700;color:var(--text);line-height:1.35;word-break:break-word;}
 .sel-btn.active .sel-btn-title{color:var(--blue-d);}
-.sel-btn-desc{font-size:12px;color:var(--text2);margin-top:3px;line-height:1.5;word-break:break-word;}
+.sel-btn-desc{font-size:14px;color:var(--text2);margin-top:4px;line-height:1.55;word-break:break-word;}
 .sel-btn.active .sel-btn-desc{color:#3b82f6;}
-.sel-btn-check{color:var(--blue);font-size:16px;flex-shrink:0;margin-top:1px;}
+.sel-btn-check{color:var(--blue);font-size:20px;flex-shrink:0;margin-top:1px;}
 
 /* ═══ TYPE BTN (NSCLC/SCLC) ═══ */
-.type-row{display:flex;gap:12px;margin-bottom:14px;}
+.type-row{display:flex;gap:14px;margin-bottom:16px;}
 .type-row.col{flex-direction:column;}
 .type-btn{
-  flex:1;padding:20px 12px;border-radius:var(--radius-lg);
-  border:2px solid var(--border);background:var(--bg2);
+  flex:1;padding:26px 14px;border-radius:var(--radius-lg);
+  border:2.5px solid var(--border);background:var(--bg2);
   text-align:center;transition:all .15s;box-shadow:var(--shadow);
 }
 .type-btn:active{transform:scale(.98);}
-.type-btn-ico{font-size:34px;margin-bottom:8px;}
-.type-btn-title{font-size:16px;font-weight:700;color:var(--text);}
-.type-btn-sub{font-size:12px;color:var(--text2);margin-top:3px;}
+.type-btn-ico{font-size:44px;margin-bottom:10px;}
+.type-btn-title{font-size:20px;font-weight:800;color:var(--text);}
+.type-btn-sub{font-size:14px;color:var(--text2);margin-top:4px;}
 @media(max-width:430px){.type-row{flex-direction:column;}}
 
 /* ═══ XLINK BTN ═══ */
 .xlink-btn{
-  display:inline-flex;align-items:center;gap:6px;
-  padding:9px 14px;border-radius:var(--radius-sm);
-  font-size:13px;font-weight:600;margin-top:6px;margin-right:6px;
+  display:inline-flex;align-items:center;gap:7px;
+  padding:11px 16px;border-radius:var(--radius-sm);
+  font-size:15px;font-weight:700;margin-top:8px;margin-right:8px;
   word-break:break-word;white-space:normal;text-align:left;
   transition:all .15s;
 }
 .xlink-btn:active{opacity:.8;}
 
 /* ═══ PILL / BADGE ═══ */
-.pill{display:inline-block;font-size:11px;font-weight:600;
-      padding:2px 9px;border-radius:20px;line-height:1.5;white-space:nowrap;}
-.badge-src{font-family:var(--mono);font-size:10px;font-weight:600;
-           padding:2px 7px;border-radius:5px;display:inline-block;line-height:1.4;}
+.pill{display:inline-block;font-size:12px;font-weight:700;
+      padding:3px 10px;border-radius:20px;line-height:1.5;white-space:nowrap;}
+.badge-src{font-family:var(--mono);font-size:11px;font-weight:700;
+           padding:3px 8px;border-radius:6px;display:inline-block;line-height:1.5;}
 .badge-nccn{background:#dbeafe;color:#1e40af;}
 .badge-cat1{background:#d1fae5;color:#065f46;}
 .badge-cat2{background:#fef3c7;color:#713f12;}
 .badge-trial{background:#ede9fe;color:#4c1d95;}
 
 /* ═══ SECTION HEAD ═══ */
-.sec-head{display:flex;align-items:center;gap:8px;margin:14px 0 8px;}
-.sec-head-bar{width:3px;height:18px;border-radius:2px;flex-shrink:0;}
-.sec-head-text{font-size:12px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;}
+.sec-head{display:flex;align-items:center;gap:9px;margin:16px 0 10px;}
+.sec-head-bar{width:4px;height:20px;border-radius:2px;flex-shrink:0;}
+.sec-head-text{font-size:13px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;}
 
 /* ═══ TX ROW ═══ */
-.tx-row{padding:10px 0;border-bottom:1px solid var(--border);}
+.tx-row{padding:13px 0;border-bottom:1px solid var(--border);}
 .tx-row:last-child{border-bottom:none;}
-.tx-row-top{display:flex;align-items:flex-start;gap:6px;flex-wrap:wrap;}
-.tx-row-drug{font-size:13.5px;font-weight:600;color:var(--text);flex:1;min-width:0;
-             line-height:1.45;word-break:break-word;}
-.tx-row-badges{display:flex;gap:4px;flex-wrap:wrap;flex-shrink:0;}
-.tx-row-note{font-size:11.5px;color:var(--text2);margin-top:3px;word-break:break-word;}
+.tx-row-top{display:flex;align-items:flex-start;gap:8px;flex-wrap:wrap;}
+.tx-row-drug{font-size:15.5px;font-weight:600;color:var(--text);flex:1;min-width:0;
+             line-height:1.5;word-break:break-word;}
+.tx-row-badges{display:flex;gap:5px;flex-wrap:wrap;flex-shrink:0;}
+.tx-row-note{font-size:13px;color:var(--text2);margin-top:4px;word-break:break-word;line-height:1.5;}
 
 /* ═══ TNM TABLE ═══ */
-.tnm-table{width:100%;border-collapse:collapse;font-size:12.5px;}
-.tnm-table th{background:var(--bg3);color:var(--text2);font-size:11px;font-weight:700;
-              text-transform:uppercase;letter-spacing:.04em;padding:8px 10px;
+.tnm-table{width:100%;border-collapse:collapse;font-size:14px;}
+.tnm-table th{background:var(--bg3);color:var(--text2);font-size:12px;font-weight:700;
+              text-transform:uppercase;letter-spacing:.04em;padding:10px 12px;
               border-bottom:2px solid var(--border2);text-align:left;}
-.tnm-table td{padding:9px 10px;border-bottom:1px solid var(--border);vertical-align:top;
-              line-height:1.5;word-break:break-word;}
+.tnm-table td{padding:11px 12px;border-bottom:1px solid var(--border);vertical-align:top;
+              line-height:1.6;word-break:break-word;}
 .tnm-table tr:hover td{background:var(--bg3);}
-.tnm-code-cell{font-family:var(--mono);font-size:12px;font-weight:600;
-               white-space:nowrap;width:60px;}
+.tnm-code-cell{font-family:var(--mono);font-size:13px;font-weight:700;
+               white-space:nowrap;width:68px;}
 .tnm-table-wrap{overflow-x:auto;border-radius:var(--radius);border:1px solid var(--border);
                 box-shadow:var(--shadow);}
 
 /* ═══ STAGE RESULT CARD ═══ */
-.stage-result{border-radius:var(--radius);border:2px solid;overflow:hidden;margin-top:6px;}
-.stage-result-head{padding:12px 14px;}
-.stage-tnm-row{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px;}
-.stage-tnm-code{font-family:var(--mono);font-size:15px;font-weight:700;letter-spacing:-.3px;}
-.stage-badge-large{font-size:14px;font-weight:800;padding:4px 12px;border-radius:8px;
+.stage-result{border-radius:var(--radius);border:2.5px solid;overflow:hidden;margin-top:8px;}
+.stage-result-head{padding:16px 18px;}
+.stage-tnm-row{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:5px;}
+.stage-tnm-code{font-family:var(--mono);font-size:20px;font-weight:800;letter-spacing:-.3px;}
+.stage-badge-large{font-size:17px;font-weight:900;padding:5px 16px;border-radius:10px;
                    white-space:nowrap;flex-shrink:0;font-family:var(--mono);}
-.stage-result-body{padding:12px 14px;background:var(--bg2);}
+.stage-result-body{padding:14px 18px;background:var(--bg2);}
 
 /* ═══ TAB TOGGLE ═══ */
 .tab-toggle{display:flex;background:var(--bg3);border-radius:var(--radius-sm);
-            padding:3px;margin-bottom:14px;}
-.tab-toggle-btn{flex:1;padding:7px;border-radius:6px;font-size:13px;font-weight:600;
+            padding:4px;margin-bottom:16px;}
+.tab-toggle-btn{flex:1;padding:9px;border-radius:7px;font-size:14px;font-weight:700;
                 color:var(--text2);transition:all .15s;text-align:center;}
 .tab-toggle-btn.active{background:var(--bg2);color:var(--blue);box-shadow:var(--shadow);}
 
 /* ═══ LINK BTN ═══ */
-.link-card{display:flex;align-items:center;gap:12px;padding:14px 16px;
+.link-card{display:flex;align-items:center;gap:14px;padding:16px 18px;
            background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);
-           box-shadow:var(--shadow);margin-bottom:8px;transition:all .15s;text-decoration:none;}
+           box-shadow:var(--shadow);margin-bottom:10px;transition:all .15s;text-decoration:none;}
 .link-card:hover{border-color:var(--blue);box-shadow:var(--shadow2);}
-.link-card-ico{font-size:24px;flex-shrink:0;}
-.link-card-title{font-size:14px;font-weight:700;color:var(--text);}
-.link-card-sub{font-size:11.5px;color:var(--text2);margin-top:2px;font-family:var(--mono);}
-.link-card-arrow{color:var(--text3);margin-left:auto;flex-shrink:0;font-size:16px;}
+.link-card-ico{font-size:28px;flex-shrink:0;}
+.link-card-title{font-size:16px;font-weight:700;color:var(--text);}
+.link-card-sub{font-size:12px;color:var(--text2);margin-top:3px;font-family:var(--mono);}
+.link-card-arrow{color:var(--text3);margin-left:auto;flex-shrink:0;font-size:18px;}
 
 /* ═══ ACCORDION ═══ */
 .accordion{background:var(--bg2);border:1px solid var(--border);
-           border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:8px;}
-.accordion-head{display:flex;align-items:center;gap:10px;padding:14px 16px;
+           border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow);margin-bottom:10px;}
+.accordion-head{display:flex;align-items:center;gap:12px;padding:16px 18px;
                 width:100%;text-align:left;transition:background .1s;}
 .accordion-head:hover{background:var(--bg3);}
-.accordion-ico{font-size:20px;flex-shrink:0;}
-.accordion-title{font-size:14px;font-weight:700;color:var(--text);flex:1;min-width:0;word-break:break-word;}
-.accordion-sub{font-size:12px;color:var(--text2);margin-top:1px;word-break:break-word;}
-.accordion-arrow{color:var(--text3);flex-shrink:0;font-size:14px;font-weight:700;}
-.accordion-body{padding:0 16px 14px;border-top:1px solid var(--border);}
+.accordion-ico{font-size:24px;flex-shrink:0;}
+.accordion-title{font-size:16px;font-weight:700;color:var(--text);flex:1;min-width:0;word-break:break-word;}
+.accordion-sub{font-size:13.5px;color:var(--text2);margin-top:2px;word-break:break-word;}
+.accordion-arrow{color:var(--text3);flex-shrink:0;font-size:16px;font-weight:700;}
+.accordion-body{padding:0 18px 16px;border-top:1px solid var(--border);}
 
 /* ═══ BM GRID ═══ */
-.bm-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.bm-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
 @media(max-width:420px){.bm-grid{grid-template-columns:1fr;}}
-.bm-card{padding:14px;border-radius:var(--radius);border:2px solid;
+.bm-card{padding:16px;border-radius:var(--radius);border:2px solid;
          cursor:pointer;text-align:left;transition:all .15s;width:100%;}
-.bm-card:hover{transform:translateY(-1px);box-shadow:var(--shadow2);}
-.bm-card-title{font-size:14px;font-weight:700;margin-bottom:2px;}
-.bm-card-sub{font-size:11.5px;opacity:.75;word-break:break-word;}
-.bm-freq{font-size:10px;font-weight:700;padding:2px 8px;border-radius:12px;
-         margin-top:8px;display:inline-block;font-family:var(--mono);}
+.bm-card:hover{transform:translateY(-2px);box-shadow:var(--shadow2);}
+.bm-card-title{font-size:16px;font-weight:800;margin-bottom:3px;}
+.bm-card-sub{font-size:13px;opacity:.75;word-break:break-word;}
+.bm-freq{font-size:11px;font-weight:700;padding:3px 10px;border-radius:12px;
+         margin-top:10px;display:inline-block;font-family:var(--mono);}
 
 /* ═══ STEP NUM ═══ */
-.step-num{width:22px;height:22px;border-radius:50%;background:var(--text2);color:#fff;
-          font-size:11px;font-weight:700;display:inline-flex;align-items:center;
+.step-num{width:26px;height:26px;border-radius:50%;background:var(--text2);color:#fff;
+          font-size:13px;font-weight:700;display:inline-flex;align-items:center;
           justify-content:center;flex-shrink:0;margin-top:2px;}
 
 /* ═══ DIVIDER ═══ */
-.div{height:1px;background:var(--border);margin:12px 0;}
+.div{height:1px;background:var(--border);margin:14px 0;}
 
-/* ═══ PWA LOADING ═══ */
-#splash{position:fixed;inset:0;background:var(--blue-d);display:flex;flex-direction:column;
-        align-items:center;justify-content:center;z-index:9999;transition:opacity .4s;}
-#splash.hidden{opacity:0;pointer-events:none;}
-.splash-ico{font-size:52px;margin-bottom:16px;}
-.splash-title{font-size:20px;font-weight:700;color:#fff;margin-bottom:6px;}
-.splash-sub{font-size:13px;color:rgba(255,255,255,.6);}
+/* ═══ LOADING FALLBACK ═══ */
+#app-loading{display:flex;flex-direction:column;align-items:center;justify-content:center;
+             min-height:100vh;gap:12px;color:var(--text2);font-size:15px;}
+#app-loading .ld-ico{font-size:48px;}
 </style>
 </head>
 <body>
 
-<!-- PWA Splash -->
-<div id="splash">
-  <div class="splash-ico">🫁</div>
-  <div class="splash-title">肺癌診治指引</div>
-  <div class="splash-sub" id="splash-msg">載入中…</div>
+<!-- Simple loading placeholder (React replaces this on mount) -->
+<div id="root">
+  <div id="app-loading">
+    <div class="ld-ico">🫁</div>
+    <div>載入中…</div>
+  </div>
 </div>
-
-<script>
-/* ── Splash 保護：最多等 12 秒，若 React 未掛載則顯示錯誤 ── */
-var _splashTimer = setTimeout(function(){
-  var el = document.getElementById('splash');
-  var msg = document.getElementById('splash-msg');
-  if(el && !el.classList.contains('hidden')){
-    if(msg) msg.textContent = '載入失敗，請重新整理頁面';
-  }
-}, 12000);
-
-/* ── 全域錯誤捕捉：顯示在 splash 而非卡住 ── */
-window.addEventListener('error', function(e){
-  clearTimeout(_splashTimer);
-  var el = document.getElementById('splash');
-  var msg = document.getElementById('splash-msg');
-  if(el && !el.classList.contains('hidden')){
-    if(msg) msg.textContent = '錯誤：' + (e.message||'未知錯誤') + '，請重新整理';
-  }
-});
-</script>
-
-<div id="root"></div>
 
 <script>
 /* ── PWA Service Worker ── */
@@ -842,13 +822,13 @@ function TxCard({data,nav}){
       {data.notes&&data.notes.length>0&&<>
         <SecHead ch="臨床備註" color="amber" icon="📋"/>
         {data.notes.map((nt,i)=><div key={i} style={{display:"flex",gap:8,marginBottom:6,alignItems:"flex-start"}}>
-          <span style={{color:"#d97706",fontSize:13,marginTop:1,flexShrink:0}}>•</span>
-          <span style={{fontSize:13,color:"#374151",lineHeight:1.55,wordBreak:"break-word"}}>{nt}</span>
+          <span style={{color:"#d97706",fontSize:15,marginTop:1,flexShrink:0}}>•</span>
+          <span style={{fontSize:15,color:"#374151",lineHeight:1.55,wordBreak:"break-word"}}>{nt}</span>
         </div>)}
       </>}
       {bm.length>0&&nav&&<>
         <div className="div"/>
-        <div style={{fontSize:11,color:"#94a3b8",marginBottom:6,fontWeight:600}}>🔗 相關生物標記</div>
+        <div style={{fontSize:13,color:"#94a3b8",marginBottom:6,fontWeight:600}}>🔗 相關生物標記</div>
         <div style={{display:"flex",flexWrap:"wrap",gap:4}}>
           {bm.map(id=>{const b=BM.find(x=>x.id===id);if(!b)return null;return<XBtn key={id} label={"🧬 "+id} color={b.c} onClick={()=>nav.toBm(id)}/>;})}</div>
       </>}
@@ -869,14 +849,14 @@ function StageCard({T,N,M,type,nav}){
           {type==="nsclc"?"Stage ":""}{stage||"—"}
         </span>
       </div>
-      <div style={{fontSize:11,color:colors.text,opacity:.7,marginTop:2,fontFamily:"var(--mono)"}}>{VI.tnm}</div>
+      <div style={{fontSize:13,color:colors.text,opacity:.7,marginTop:2,fontFamily:"var(--mono)"}}>{VI.tnm}</div>
     </div>
     <div className="stage-result-body">
-      {type==="nsclc"&&stage&&<div style={{fontSize:13.5,fontWeight:600,color:"#1e3a8a",marginBottom:8}}>🔬 {nsclcStageMeaning(stage)}</div>}
-      {sclc&&<div style={{marginBottom:8}}><Pill ch={sclc.label} color={sclc.c}/><div style={{fontSize:13,color:"var(--text2)",marginTop:4}}>{sclc.desc}</div></div>}
+      {type==="nsclc"&&stage&&<div style={{fontSize:15.5,fontWeight:600,color:"#1e3a8a",marginBottom:8}}>🔬 {nsclcStageMeaning(stage)}</div>}
+      {sclc&&<div style={{marginBottom:8}}><Pill ch={sclc.label} color={sclc.c}/><div style={{fontSize:15,color:"var(--text2)",marginTop:4}}>{sclc.desc}</div></div>}
       {N==="N2b"&&<div className="warn-box" style={{marginBottom:8}}>⚠️ <strong>N2b（多站 N2）：</strong>通常為不可切除，需 MDT 確認可切除性</div>}
-      {Nobj&&<div style={{fontSize:12,color:"var(--text2)",marginBottom:3,wordBreak:"break-word"}}><span style={{fontFamily:"var(--mono)",fontWeight:600}}>N：</span>{Nobj.v} — {Nobj.criteria}</div>}
-      {Mobj&&Mobj.v!=="M0"&&<div style={{fontSize:12,color:"var(--text2)",marginBottom:3,wordBreak:"break-word"}}><span style={{fontFamily:"var(--mono)",fontWeight:600}}>M：</span>{Mobj.v} — {Mobj.criteria}</div>}
+      {Nobj&&<div style={{fontSize:14,color:"var(--text2)",marginBottom:3,wordBreak:"break-word"}}><span style={{fontFamily:"var(--mono)",fontWeight:600}}>N：</span>{Nobj.v} — {Nobj.criteria}</div>}
+      {Mobj&&Mobj.v!=="M0"&&<div style={{fontSize:14,color:"var(--text2)",marginBottom:3,wordBreak:"break-word"}}><span style={{fontFamily:"var(--mono)",fontWeight:600}}>M：</span>{Mobj.v} — {Mobj.criteria}</div>}
       {nav&&tKey&&<div style={{marginTop:10,paddingTop:10,borderTop:"1px dashed var(--border2)"}}>
         <XBtn label={"前往治療："+(type==="sclc"?(sclc?.label||"SCLC"):"NSCLC Stage "+(sg||stage))} color={type==="nsclc"?"sky":"amber"}
           onClick={()=>nav.toTx({ct:type,ns:sg,sc:sclc?.type})}/>
@@ -911,10 +891,10 @@ function TNMTable(){
         <thead><tr><th>分類</th><th>大小</th><th>定義 / 侵犯條件</th></tr></thead>
         <tbody>{T_DATA.map(r=><tr key={r.v}>
           <td className="tnm-code-cell">{r.v}</td>
-          <td style={{fontFamily:"var(--mono)",fontSize:12,whiteSpace:"nowrap"}}>{r.size}</td>
+          <td style={{fontFamily:"var(--mono)",fontSize:14,whiteSpace:"nowrap"}}>{r.size}</td>
           <td><div style={{fontWeight:500,marginBottom:2}}>{r.criteria}</div>
-            <div style={{fontSize:11.5,color:"var(--text2)",whiteSpace:"pre-line"}}>{r.detail}</div>
-            {r.note&&<div style={{fontSize:11,color:"#ca8a04",marginTop:3}}>💡 {r.note}</div>}
+            <div style={{fontSize:13.5,color:"var(--text2)",whiteSpace:"pre-line"}}>{r.detail}</div>
+            {r.note&&<div style={{fontSize:13,color:"#ca8a04",marginTop:3}}>💡 {r.note}</div>}
           </td>
         </tr>)}</tbody>
       </table>
@@ -926,8 +906,8 @@ function TNMTable(){
           <td className="tnm-code-cell">{r.v}</td>
           <td style={{whiteSpace:"nowrap"}}><Pill ch={r.g} color={r.g==="N0"?"emerald":r.g==="N1"?"sky":r.g==="N2"?"amber":"red"} sm/></td>
           <td><div style={{fontWeight:500,marginBottom:2}}>{r.criteria}</div>
-            {r.detail&&<div style={{fontSize:11.5,color:"var(--text2)"}}>{r.detail}</div>}
-            {r.note&&<div style={{fontSize:11,color:"#ca8a04",marginTop:3}}>{r.note}</div>}
+            {r.detail&&<div style={{fontSize:13.5,color:"var(--text2)"}}>{r.detail}</div>}
+            {r.note&&<div style={{fontSize:13,color:"#ca8a04",marginTop:3}}>{r.note}</div>}
           </td>
         </tr>)}</tbody>
       </table>
@@ -938,8 +918,8 @@ function TNMTable(){
         <tbody>{M_DATA.map(r=><tr key={r.v}>
           <td className="tnm-code-cell">{r.v}</td>
           <td><div style={{fontWeight:500,marginBottom:2}}>{r.criteria}</div>
-            {r.detail&&<div style={{fontSize:11.5,color:"var(--text2)",whiteSpace:"pre-line"}}>{r.detail}</div>}
-            {r.note&&<div style={{fontSize:11,marginTop:3,color:r.note.startsWith("💡")?"#ca8a04":"#059669"}}>{r.note}</div>}
+            {r.detail&&<div style={{fontSize:13.5,color:"var(--text2)",whiteSpace:"pre-line"}}>{r.detail}</div>}
+            {r.note&&<div style={{fontSize:13,marginTop:3,color:r.note.startsWith("💡")?"#ca8a04":"#059669"}}>{r.note}</div>}
           </td>
         </tr>)}</tbody>
       </table>
@@ -948,11 +928,11 @@ function TNMTable(){
       <table className="tnm-table">
         <thead><tr><th>Stage</th><th>T</th><th>N</th><th>M</th><th>備註</th></tr></thead>
         <tbody>{stageGroups.map(r=>{const c=colForStage(r.g);return<tr key={r.g}>
-          <td><span style={{fontFamily:"var(--mono)",fontWeight:700,fontSize:13,color:c.text,background:c.bg,padding:"2px 8px",borderRadius:6}}>{r.g}</span></td>
+          <td><span style={{fontFamily:"var(--mono)",fontWeight:700,fontSize:15,color:c.text,background:c.bg,padding:"2px 8px",borderRadius:6}}>{r.g}</span></td>
           <td style={{fontFamily:"var(--mono)",fontSize:12}}>{r.t}</td>
           <td style={{fontFamily:"var(--mono)",fontSize:12}}>{r.n}</td>
           <td style={{fontFamily:"var(--mono)",fontSize:12}}>{r.m}</td>
-          <td style={{fontSize:11.5,color:"var(--text2)"}}>{r.note}</td>
+          <td style={{fontSize:13.5,color:"var(--text2)"}}>{r.note}</td>
         </tr>;})}
         </tbody>
       </table>
@@ -994,7 +974,7 @@ function StagingMod({nav,m}){
     </div>}
 
     {P==="type"&&<>
-      <div style={{fontSize:14,fontWeight:600,color:"var(--text)",marginBottom:10}}>選擇癌症類型</div>
+      <div style={{fontSize:16,fontWeight:600,color:"var(--text)",marginBottom:10}}>選擇癌症類型</div>
       <TypeRow m={m}>
         <TypeBtn icon="🫁" title="NSCLC" sub="非小細胞肺癌" color="sky" active={false} onClick={()=>go({ph:"tt",ct:"nsclc"})}/>
         <TypeBtn icon="🔵" title="SCLC" sub="小細胞肺癌" color="amber" active={false} onClick={()=>go({ph:"tt",ct:"sclc"})}/>
@@ -1004,7 +984,7 @@ function StagingMod({nav,m}){
 
     {P==="tt"&&<>
       <div style={{display:"flex",gap:6,alignItems:"center",marginBottom:10,flexWrap:"wrap"}}>
-        <Pill ch={s.ct?.toUpperCase()} color={s.ct==="nsclc"?"sky":"amber"}/><span style={{fontSize:14,fontWeight:600}}>選擇分期類型</span>
+        <Pill ch={s.ct?.toUpperCase()} color={s.ct==="nsclc"?"sky":"amber"}/><span style={{fontSize:16,fontWeight:600}}>選擇分期類型</span>
       </div>
       {TNM_TYPES.map(t=><SelBtn key={t.v} code={t.v} title={t.v} desc={t.desc} active={s.tt===t.v} onClick={()=>go({ph:"T",tt:t.v})} ac={s.ct==="nsclc"?"sky":"amber"}/>)}
     </>}
@@ -1013,7 +993,7 @@ function StagingMod({nav,m}){
       <StepBar labels={["T","N","M","結果"]} cur={0}/>
       <div style={{display:"flex",gap:6,alignItems:"center",marginBottom:10,flexWrap:"wrap"}}>
         <Pill ch={s.ct?.toUpperCase()} color={s.ct==="nsclc"?"sky":"amber"}/><Pill ch={s.tt} color="gray" sm/>
-        <span style={{fontSize:14,fontWeight:600}}>T — 原發腫瘤</span>
+        <span style={{fontSize:16,fontWeight:600}}>T — 原發腫瘤</span>
       </div>
       {T_DATA.map(o=><SelBtn key={o.v} code={o.v} title={o.size} desc={o.criteria} active={s.T===o.v} onClick={()=>go({ph:"N",T:o.v})} ac={s.ct==="nsclc"?"sky":"amber"}/>)}
     </>}
@@ -1021,7 +1001,7 @@ function StagingMod({nav,m}){
     {P==="N"&&<>
       <StepBar labels={["T","N","M","結果"]} cur={1}/>
       <div style={{display:"flex",gap:6,alignItems:"center",marginBottom:10,flexWrap:"wrap"}}>
-        <Pill ch={s.T} color={s.ct==="nsclc"?"sky":"amber"}/><span style={{fontSize:14,fontWeight:600}}>N — 區域淋巴結</span>
+        <Pill ch={s.T} color={s.ct==="nsclc"?"sky":"amber"}/><span style={{fontSize:16,fontWeight:600}}>N — 區域淋巴結</span>
       </div>
       <div className="info-box" style={{marginBottom:10}}>ℹ️ <strong>IASLC 9th N2 亞分類：</strong>N2a1（skip，預後較佳）/ N2a2（含N1）/ N2b（多站，通常不可切除）</div>
       {N_DATA.map(o=><SelBtn key={o.v} code={o.v} title={o.v} desc={o.criteria} active={s.N===o.v} onClick={()=>go({ph:"M",N:o.v})} ac={s.ct==="nsclc"?"sky":"amber"}/>)}
@@ -1030,7 +1010,7 @@ function StagingMod({nav,m}){
     {P==="M"&&<>
       <StepBar labels={["T","N","M","結果"]} cur={2}/>
       <div style={{display:"flex",gap:6,alignItems:"center",marginBottom:10,flexWrap:"wrap"}}>
-        <Pill ch={s.T} color={s.ct==="nsclc"?"sky":"amber"}/><Pill ch={s.N} color={s.ct==="nsclc"?"sky":"amber"}/><span style={{fontSize:14,fontWeight:600}}>M — 遠處轉移</span>
+        <Pill ch={s.T} color={s.ct==="nsclc"?"sky":"amber"}/><Pill ch={s.N} color={s.ct==="nsclc"?"sky":"amber"}/><span style={{fontSize:16,fontWeight:600}}>M — 遠處轉移</span>
       </div>
       {M_DATA.map(o=><SelBtn key={o.v} code={o.v} title={o.v} desc={o.criteria} active={s.M===o.v} onClick={()=>go({ph:"result",M:o.v})} ac={s.ct==="nsclc"?"sky":"amber"}/>)}
     </>}
@@ -1039,7 +1019,7 @@ function StagingMod({nav,m}){
       <StepBar labels={["T","N","M","結果"]} cur={3}/>
       <div style={{display:"flex",gap:6,marginBottom:12,alignItems:"center",flexWrap:"wrap"}}>
         <Pill ch={s.ct?.toUpperCase()} color={s.ct==="nsclc"?"sky":"amber"}/><Pill ch={s.tt} color="gray" sm/>
-        <span style={{fontSize:14,fontWeight:600}}>分期結果</span>
+        <span style={{fontSize:16,fontWeight:600}}>分期結果</span>
       </div>
       <StageCard T={s.T} N={s.N} M={s.M} type={s.ct} nav={nav}/>
       <button className="btn-outline" style={{marginTop:10}} onClick={reset}>↺ 重新選擇</button>
@@ -1078,20 +1058,20 @@ function TreatMod({preset,nav,onClear,m}){
     </TypeRow>}
 
     {w.ph==="nsclcStage"&&<>
-      <div style={{display:"flex",gap:6,alignItems:"center",marginBottom:10,flexWrap:"wrap"}}><Pill ch="NSCLC" color="sky"/><span style={{fontSize:14,fontWeight:600}}>選擇分期</span></div>
+      <div style={{display:"flex",gap:6,alignItems:"center",marginBottom:10,flexWrap:"wrap"}}><Pill ch="NSCLC" color="sky"/><span style={{fontSize:16,fontWeight:600}}>選擇分期</span></div>
       {[{v:"I",t:"Stage I",d:"T1-2 N0 M0 — 早期"},{v:"II",t:"Stage II",d:"T3N0 / T1-2N1 — 早期"},{v:"IIIA",t:"Stage IIIA",d:"T3-4N1 / T1-3N2 — 局部晚期"},{v:"IIIB-C",t:"Stage IIIB/C",d:"T3-4N3 — 局部晚期（通常不可切除）"},{v:"IV",t:"Stage IV",d:"M1 — 轉移性"}].map(s=><SelBtn key={s.v} title={s.t} desc={s.d} active={w.ns===s.v} ac="sky" onClick={()=>{if(["I","II","IIIB-C"].includes(s.v))go({ph:"result",ns:s.v});else go({ph:s.v==="IIIA"?"resectable":"ecog",ns:s.v});}}/>)}
     </>}
     {w.ph==="sclcStage"&&<>
-      <div style={{display:"flex",gap:6,alignItems:"center",marginBottom:10,flexWrap:"wrap"}}><Pill ch="SCLC" color="amber"/><span style={{fontSize:14,fontWeight:600}}>選擇分期</span></div>
+      <div style={{display:"flex",gap:6,alignItems:"center",marginBottom:10,flexWrap:"wrap"}}><Pill ch="SCLC" color="amber"/><span style={{fontSize:16,fontWeight:600}}>選擇分期</span></div>
       {[{v:"ls1",t:"局限期 Stage I–IIA",d:"T1-2 N0 M0 — 評估手術"},{v:"ls2",t:"局限期 Stage IIB–IIIC",d:"N+ 或 T3-4 — 同步 cCRT"},{v:"es",t:"廣泛期 (ES-SCLC)",d:"任何 M1 — 全身治療"}].map(s=><SelBtn key={s.v} title={s.t} desc={s.d} active={w.sc===s.v} onClick={()=>go({ph:"result",sc:s.v})} ac="amber"/>)}
     </>}
     {w.ph==="resectable"&&<>
-      <div style={{marginBottom:12}}><Pill ch="NSCLC Stage IIIA" color="sky"/><div style={{fontSize:14,fontWeight:600,marginTop:10}}>可切除性評估（MDT 討論）</div></div>
+      <div style={{marginBottom:12}}><Pill ch="NSCLC Stage IIIA" color="sky"/><div style={{fontSize:16,fontWeight:600,marginTop:10}}>可切除性評估（MDT 討論）</div></div>
       <SelBtn title="✅ 可切除 Resectable" desc="MDT 評估可達 R0 切除（含降期後手術）" active={w.res==="yes"} onClick={()=>go({ph:"result",res:"yes"})} ac="emerald"/>
       <SelBtn title="❌ 不可切除 Unresectable" desc="侵犯大血管/心臟/氣管；N3；或 MDT 評估無法 R0" active={w.res==="no"} onClick={()=>go({ph:"result",res:"no"})} ac="red"/>
     </>}
     {w.ph==="ecog"&&<>
-      <div style={{marginBottom:12}}><Pill ch="NSCLC Stage IV" color="sky"/><div style={{fontSize:14,fontWeight:600,marginTop:10}}>體能狀態 ECOG PS</div></div>
+      <div style={{marginBottom:12}}><Pill ch="NSCLC Stage IV" color="sky"/><div style={{fontSize:16,fontWeight:600,marginTop:10}}>體能狀態 ECOG PS</div></div>
       <SelBtn title="ECOG 0–1" desc="良好 — 可耐受標準化療/ICI 全劑量" active={w.ecog==="0-1"} onClick={()=>go({ph:"driver",ecog:"0-1"})} ac="emerald"/>
       <SelBtn title="ECOG 2" desc="中等 — 建議 Carboplatin-based；單藥考量" active={w.ecog==="2"} onClick={()=>go({ph:"driver",ecog:"2"})} ac="amber"/>
       <SelBtn title="ECOG 3–4" desc="差 — BSC 為主；若有 Driver TKI 仍可考慮" active={w.ecog==="3-4"} onClick={()=>go({ph:"result",ecog:"3-4"})} ac="red"/>
@@ -1099,8 +1079,8 @@ function TreatMod({preset,nav,onClear,m}){
     {w.ph==="driver"&&<>
       <div style={{marginBottom:12}}>
         <div style={{display:"flex",gap:6,flexWrap:"wrap",alignItems:"center",marginBottom:8}}><Pill ch="NSCLC IV" color="sky"/><Pill ch={"ECOG "+w.ecog} color={w.ecog==="2"?"amber":"emerald"} sm/></div>
-        <div style={{fontSize:14,fontWeight:600}}>Targetable Driver Mutation？</div>
-        <div style={{fontSize:12,color:"var(--text2)",marginTop:3}}>EGFR / ALK / ROS1 / BRAF / KRAS G12C / MET ex14 / RET / NTRK / HER2</div>
+        <div style={{fontSize:16,fontWeight:600}}>Targetable Driver Mutation？</div>
+        <div style={{fontSize:14,color:"var(--text2)",marginTop:3}}>EGFR / ALK / ROS1 / BRAF / KRAS G12C / MET ex14 / RET / NTRK / HER2</div>
       </div>
       <SelBtn title="✅ 有 Driver Mutation" desc="任一 targetable 突變確認陽性" active={w.driver==="yes"} onClick={()=>go({ph:"result",driver:"yes"})} ac="emerald"/>
       <SelBtn title="❌ 無 Driver Mutation（或尚未檢測）" desc="依 PD-L1 TPS 決策" active={w.driver==="no"} onClick={()=>go({ph:"pdl1",driver:"no"})} ac="sky"/>
@@ -1108,7 +1088,7 @@ function TreatMod({preset,nav,onClear,m}){
     {w.ph==="pdl1"&&<>
       <div style={{marginBottom:12}}>
         <div style={{display:"flex",gap:6,flexWrap:"wrap",alignItems:"center",marginBottom:8}}><Pill ch="NSCLC IV" color="sky"/><Pill ch="無 Driver" color="gray" sm/></div>
-        <div style={{fontSize:14,fontWeight:600}}>PD-L1 TPS（22C3 抗體）</div>
+        <div style={{fontSize:16,fontWeight:600}}>PD-L1 TPS（22C3 抗體）</div>
       </div>
       <SelBtn code="≥50%" title="TPS ≥50% — 高表現" desc="ICI 單藥（Pembrolizumab）為 Cat.1 選項" active={w.pdl1===">=50"} onClick={()=>go({ph:"result",pdl1:">=50"})} ac="emerald"/>
       <SelBtn code="1–49%" title="TPS 1–49% — 中等" desc="ICI 單藥不建議；需與化療併用" active={w.pdl1==="1-49"} onClick={()=>go({ph:"result",pdl1:"1-49"})} ac="amber"/>
@@ -1143,11 +1123,11 @@ function BMMod({presetId,nav,onClear}){
       <div className="card" style={{marginBottom:10}}>
         <div className="card-head" style={{background:COL[b.c]?.bg,borderBottom:`1px solid ${COL[b.c]?.border}`}}>
           <div style={{display:"flex",gap:8,alignItems:"flex-start",justifyContent:"space-between",flexWrap:"wrap"}}>
-            <div><div style={{fontSize:18,fontWeight:800,color:COL[b.c]?.text}}>{b.l}</div><div style={{fontSize:12,color:COL[b.c]?.text,opacity:.75,marginTop:2}}>{b.sub}</div></div>
-            <div style={{textAlign:"right",flexShrink:0}}><Pill ch={b.freq} color={b.c}/><div style={{fontSize:11,color:COL[b.c]?.text,opacity:.7,marginTop:4,fontFamily:"var(--mono)"}}>🧪 {b.test}</div></div>
+            <div><div style={{fontSize:20,fontWeight:800,color:COL[b.c]?.text}}>{b.l}</div><div style={{fontSize:14,color:COL[b.c]?.text,opacity:.75,marginTop:2}}>{b.sub}</div></div>
+            <div style={{textAlign:"right",flexShrink:0}}><Pill ch={b.freq} color={b.c}/><div style={{fontSize:13,color:COL[b.c]?.text,opacity:.7,marginTop:4,fontFamily:"var(--mono)"}}>🧪 {b.test}</div></div>
           </div>
           {b.mut.length>0&&<div style={{marginTop:8,display:"flex",gap:4,flexWrap:"wrap"}}>
-            {b.mut.map((m2,i)=><span key={i} style={{fontSize:11,background:"rgba(255,255,255,.6)",color:COL[b.c]?.text,padding:"2px 8px",borderRadius:20,border:`1px solid ${COL[b.c]?.border}`}}>{m2}</span>)}
+            {b.mut.map((m2,i)=><span key={i} style={{fontSize:13,background:"rgba(255,255,255,.6)",color:COL[b.c]?.text,padding:"2px 8px",borderRadius:20,border:`1px solid ${COL[b.c]?.border}`}}>{m2}</span>)}
           </div>}
         </div>
         <div className="card-body">
@@ -1159,11 +1139,11 @@ function BMMod({presetId,nav,onClear}){
       <div className="card" style={{marginBottom:10}}>
         <div className="card-body">
           <SecHead ch="CNS 穿透 / 腦轉移" color="sky" icon="🧠"/>
-          <div style={{fontSize:13,color:"var(--text)",lineHeight:1.6}}>{b.cns}</div>
+          <div style={{fontSize:15,color:"var(--text)",lineHeight:1.6}}>{b.cns}</div>
           <SecHead ch="抗藥性備註" color="orange" icon="🔄"/>
           {b.res.map((r,i)=><div key={i} style={{display:"flex",gap:8,marginBottom:6,alignItems:"flex-start"}}>
-            <span style={{color:"var(--orange)",fontSize:13,marginTop:1,flexShrink:0}}>•</span>
-            <span style={{fontSize:13,color:"var(--text)",lineHeight:1.55,wordBreak:"break-word"}}>{r}</span>
+            <span style={{color:"var(--orange)",fontSize:15,marginTop:1,flexShrink:0}}>•</span>
+            <span style={{fontSize:15,color:"var(--text)",lineHeight:1.55,wordBreak:"break-word"}}>{r}</span>
           </div>)}
         </div>
       </div>
@@ -1191,10 +1171,10 @@ function SpecialMod({nav}){
         <div style={{paddingTop:10}}>
           {sc.body.map((b,i)=><div key={i} style={{display:"flex",gap:8,marginBottom:9,alignItems:"flex-start"}}>
             <span className="step-num">{i+1}</span>
-            <span style={{fontSize:13.5,color:"var(--text)",lineHeight:1.6,wordBreak:"break-word"}}>{b}</span>
+            <span style={{fontSize:15.5,color:"var(--text)",lineHeight:1.6,wordBreak:"break-word"}}>{b}</span>
           </div>)}
         </div>
-        <div style={{marginTop:10,padding:"8px 12px",background:"var(--bg3)",borderRadius:8,fontSize:12,color:"var(--text2)"}}>
+        <div style={{marginTop:10,padding:"8px 12px",background:"var(--bg3)",borderRadius:8,fontSize:14,color:"var(--text2)"}}>
           📚 {sc.ref}
         </div>
         {nav&&sc.txKey&&<div style={{marginTop:8}}>
@@ -1214,7 +1194,7 @@ function RefMod(){
 
     {/* NCCN 原文連結 */}
     <div style={{marginBottom:12}}>
-      <div style={{fontSize:12,fontWeight:700,color:"var(--text2)",marginBottom:6,textTransform:"uppercase",letterSpacing:".04em"}}>📄 NCCN 原文 PDF</div>
+      <div style={{fontSize:14,fontWeight:700,color:"var(--text2)",marginBottom:6,textTransform:"uppercase",letterSpacing:".04em"}}>📄 NCCN 原文 PDF</div>
       <a href={VI.nsclcUrl} target="_blank" rel="noopener" className="link-card">
         <span className="link-card-ico">🫁</span>
         <div><div className="link-card-title">NSCLC Guidelines</div><div className="link-card-sub">{VI.nsclc} · {VI.nsclcDate}</div></div>
@@ -1232,7 +1212,7 @@ function RefMod(){
       <div className="card-head"><div className="card-title">版本資訊</div></div>
       <div className="card-body">
         {[{l:"NCCN SCLC",v:VI.sclc+" ("+VI.sclcDate+")",c:"amber"},{l:"NCCN NSCLC",v:VI.nsclc+" ("+VI.nsclcDate+")",c:"sky"},{l:"TNM 分期",v:VI.tnm,c:"indigo"},{l:"App 版本",v:VI.app+" · "+VI.appDate,c:"gray"}].map((r,i)=><div key={i} style={{display:"flex",justifyContent:"space-between",alignItems:"center",padding:"9px 0",borderBottom:i<3?"1px solid var(--border)":"none",gap:8,flexWrap:"wrap"}}>
-          <span style={{fontSize:13.5,fontWeight:600}}>{r.l}</span><Pill ch={r.v} color={r.c} sm/>
+          <span style={{fontSize:15.5,fontWeight:600}}>{r.l}</span><Pill ch={r.v} color={r.c} sm/>
         </div>)}
       </div>
     </div>
@@ -1242,9 +1222,9 @@ function RefMod(){
       <div className="card-head"><div className="card-title">🔬 關鍵臨床試驗</div></div>
       <div className="card-body">
         {KT.map((t,i)=><div key={i} style={{paddingBottom:10,marginBottom:10,borderBottom:i<KT.length-1?"1px solid var(--border)":"none"}}>
-          <div style={{fontSize:13.5,fontWeight:700}}>{t.n}</div>
-          <div style={{fontSize:12.5,color:"var(--text)",marginTop:2}}>{t.d}</div>
-          <div style={{fontSize:11.5,color:"var(--text2)",marginTop:1,fontFamily:"var(--mono)"}}>{t.r}</div>
+          <div style={{fontSize:15.5,fontWeight:700}}>{t.n}</div>
+          <div style={{fontSize:14.5,color:"var(--text)",marginTop:2}}>{t.d}</div>
+          <div style={{fontSize:13.5,color:"var(--text2)",marginTop:1,fontFamily:"var(--mono)"}}>{t.r}</div>
         </div>)}
       </div>
     </div>
@@ -1273,9 +1253,6 @@ function App(){
     toBm:id=>{setPreset(x=>({...x,bmId:id}));setTab("biomarker");},
     toStaging:()=>setTab("staging"),
   };
-
-  // Hide splash after render
-  useEffect(()=>{const el=document.getElementById('splash');if(el){setTimeout(()=>el.classList.add('hidden'),400);}},[]);
 
   return<div className="app-wrap">
     {/* Header */}
